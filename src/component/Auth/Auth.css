@@ -1,0 +1,12 @@
+
+.foto {
+    height: 100vh;
+}
+.image {
+    background-image: url("../../../public/Pic/giris.jpg");
+    background-repeat: no-repeat;
+    background-color: lightblue;
+    background-size: cover;
+    background-position: center;
+    /*background-blend-mode: hard-light;*/
+}
