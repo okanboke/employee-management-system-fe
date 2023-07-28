@@ -38,7 +38,7 @@ function Auth() {
                 localStorage.setItem("tokenKey", result.accessToken);
                 localStorage.setItem("refreshKey",result.refreshToken); //refresh olmuş tokenla işlem yapacak
                 localStorage.setItem("currentUser", result.userId);
-                localStorage.setItem("userName", username)
+                localStorage.setItem("userName", result.userName);            
             })
             .catch((err) => console.log(err))
     }

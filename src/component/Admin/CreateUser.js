@@ -22,7 +22,7 @@ import { Alert, Snackbar } from '@mui/material';
 function CreateUser(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("")
   const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
 
@@ -56,14 +56,17 @@ function CreateUser(props) {
 
 
           const createUsers = () => { //Yeni Çalışan Eklemek için back-end tarafına yolluyoruz.
-            PostingWithoutAuth("http://localhost:8080/api/auth/admin/create-user", {
+            PostingWithoutAuth("/api/auth/admin/create-user", {
               firstName: firstName,
               lastName: lastName,
-              email: email,
+              userName: username,
               password: password,
           }
         )//services'de metdouna gidecek
                   .then((res) => res.json())
+                  /*.then((result) => {
+                    localStorage.getItem("tokenKey", result.accessToken);
+                  })*/
                   .catch((err) => console.log(err))
           }
 
@@ -73,7 +76,7 @@ function CreateUser(props) {
             setIsSent(true);
             setFirstName("");
             setLastName("");
-            setEmail("");
+            setUsername("");
             setPassword("");
           }
 
@@ -89,7 +92,7 @@ function CreateUser(props) {
         }
     
         const handleEmail = (value) => {
-            setEmail(value);
+            setUsername(value);
             setIsSent(false);
         }
     
@@ -168,7 +171,7 @@ function CreateUser(props) {
                   label="Email Adresi"
                   name="email"
                   autoComplete="email"
-                  value={email}
+                  value={username}
                   onChange = { (i) => handleEmail(i.target.value)}
                 />
               </Grid>
