@@ -135,7 +135,7 @@ export default function MiniDrawer() {
   return (
 
     
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex'}}>
              {localStorage.getItem("currentUser") == null ? <div></div>
 
       
@@ -268,8 +268,6 @@ export default function MiniDrawer() {
 
       </Drawer>
       </div>}
-
-      
     </Box>
   );
 }
