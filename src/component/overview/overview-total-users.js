@@ -3,12 +3,13 @@ import ArrowDownIcon from '@heroicons/react/24/solid/ArrowDownIcon';
 import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import Home from '../Home/Home';
 
 
 
 export const OverviewTotalCustomers = (props) => {
-    const { difference, positive = false, sx, value } = props;
-  
+    const { difference, positive = false, sx, value, usersCount } = props;
     return (
       <Card sx={sx}>
         <CardContent>
@@ -53,24 +54,13 @@ export const OverviewTotalCustomers = (props) => {
                 direction="row"
                 spacing={0.5}
               >
-                <SvgIcon
-                  color={positive ? 'success' : 'error'}
-                  fontSize="small"
-                >
-                  {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
-                </SvgIcon>
-                <Typography
-                  color={positive ? 'success.main' : 'error.main'}
-                  variant="body2"
-                >
-                  {difference}%
-                </Typography>
+                 <SupervisorAccountIcon></SupervisorAccountIcon>
               </Stack>
               <Typography
                 color="text.secondary"
                 variant="caption"
               >
-                Since last month
+                Yönetici dahil
               </Typography>
             </Stack>
           )}
@@ -84,5 +74,5 @@ export const OverviewTotalCustomers = (props) => {
     positive: PropTypes.bool,
     value: PropTypes.string.isRequired,
     sx: PropTypes.object
-  };
+    };
   
