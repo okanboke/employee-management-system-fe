@@ -24,6 +24,7 @@ import CreateUser from '../Admin/CreateUser';
 import { useNavigate } from 'react-router-dom';
 import Auth from '../Auth/Auth';
 import { CardMedia, Link } from '@mui/material';
+import PeopleIcon from '@mui/icons-material/People';
 
 const drawerWidth = 240;
 
@@ -170,6 +171,22 @@ export default function MiniDrawer() {
           </IconButton>
         </DrawerHeader>
         <Divider />
+
+        <ListItemButton sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+                href='/home'>
+        <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Personeller" sx={{ visibility: open ?  "visible" : "hidden"}} />
+      </ListItemButton>  
  
         <ListItemButton sx={{
                   maxHeight: 48,
@@ -184,7 +201,7 @@ export default function MiniDrawer() {
                   }}>
           <PersonAddAlt1Icon />
         </ListItemIcon>
-        <ListItemText primary="Çalışan Ekle" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        <ListItemText primary="Personel ekle" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>  
 
         <ListItemButton sx={{
@@ -245,7 +262,7 @@ export default function MiniDrawer() {
                   }}>
           <EnergySavingsLeafIcon />
         </ListItemIcon>
-        <ListItemText primary="İzindeki çalışanlar" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        <ListItemText primary="İzindeki personeller" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
         <Divider />
       <ListItemButton onClick = {onClick}

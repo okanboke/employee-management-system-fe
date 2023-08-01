@@ -11,9 +11,22 @@ import {
   SvgIcon,
   Typography
 } from '@mui/material';
+import { months, monthsShort, now } from 'moment';
 
 export const OverviewTasksProgress = (props) => {
     const { value, sx } = props;
+    let hour = new Date().getHours();
+
+
+    function getCurrentDate(separator=''){
+
+      let newDate = new Date()
+      let date = newDate.getDate();
+      let month = newDate.getMonth() + 1;
+      let year = newDate.getFullYear();
+      
+      return `${separator}${date}/${separator}${month<10?`0${month}`:`${month}`}/${year}`
+      }
   
     return (
       <Card sx={sx}>
@@ -30,10 +43,10 @@ export const OverviewTasksProgress = (props) => {
                 gutterBottom
                 variant="overline"
               >
-                Task Progress
+                Takvim
               </Typography>
               <Typography variant="h4">
-                {value}%
+                {getCurrentDate()}
               </Typography>
             </Stack>
             <Avatar
@@ -50,7 +63,7 @@ export const OverviewTasksProgress = (props) => {
           </Stack>
           <Box sx={{ mt: 3 }}>
             <LinearProgress
-              value={value}
+              value={hour*4.1667}
               variant="determinate"
             />
           </Box>

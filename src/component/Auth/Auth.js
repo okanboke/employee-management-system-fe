@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { FormControl, FormHelperText, Input, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
-import { useNavigate } from "react-router-dom";
+import { Route, useHref, useNavigate } from "react-router-dom";
 import { PostWithoutAuth } from "../../services/HttpService";
 import Grid from '@mui/material/Grid';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import "../Auth/Auth.css"
+import Home from "../Home/Home";
 
 function Auth() {
     //onChange metoduyla bu bilgileri inputlardan alacağız
@@ -49,8 +50,12 @@ function Auth() {
         sendRequest(path) //register backend e istek atacak
         setUsername("")
         setPassword("")
-        history("/home") //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
+        history("/home")
+        //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
     }
+
+
+
     return (
         <Box
             component="form"
@@ -70,7 +75,7 @@ function Auth() {
                                 <TextField onChange={(i) => handleUsername(i.target.value)}
                                     required
                                     id="outlined-required"
-                                    label="Kullanıcı Adı"
+                                    label="E-Mail"
                                     fullWidth
                                 />
                                 <TextField onChange={(i) => handlePassword(i.target.value)}

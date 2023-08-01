@@ -3,12 +3,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -16,6 +13,11 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import Navbar from "../Navbar/Navbar"
 import { PostingWithoutAuth } from '../../services/HttpService';
 import { Alert, Snackbar } from '@mui/material';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 
 
 
@@ -25,9 +27,12 @@ function CreateUser(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("")
   const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
+  const [userDate, setDate] = useState(dayjs(""));
+
 
     let [imageUpload , setImageUpload] = useState("");
     let [image] = useState("");
+
         const handleSubmit = (event) => {
           event.preventDefault();
           const data = new FormData(event.currentTarget);
@@ -61,6 +66,7 @@ function CreateUser(props) {
               lastName: lastName,
               userName: username,
               password: password,
+              userDate: userDate,
           }
         )//services'de metdouna gidecek
                   .then((res) => res.json())
@@ -78,6 +84,7 @@ function CreateUser(props) {
             setLastName("");
             setUsername("");
             setPassword("");
+            setDate("");
           }
 
 
@@ -108,8 +115,13 @@ function CreateUser(props) {
       
           setIsSent(false);
         };
-          
 
+        const handleChangeDate = (newValue) => {
+          setDate(newValue);
+          setIsSent(false);
+        };
+          
+        
     return (
         <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -187,9 +199,21 @@ function CreateUser(props) {
                   onChange = { (i) => handlePassword(i.target.value)}
                 />
               </Grid>
+                <Grid item xs={12}>
 
-            </Grid>
-            <Button
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <MobileDatePicker
+                      label="İşe Giriş Tarihi"
+                      inputFormat="MM/dd/yyyy"
+                      value={userDate}
+                      onChange={handleChangeDate}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+
+              </Grid>
+              <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -209,7 +233,3 @@ function CreateUser(props) {
     )
 }
 export default CreateUser;
-
-
-
-
