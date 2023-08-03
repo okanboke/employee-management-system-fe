@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
       <Navbar></Navbar>        
         <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route exact path="/home" element={<Home />} />
         <Route exact path='/create-user' element={<CreateUser/>} />
         <Route exact path="/" element={<Auth/>}></Route>
 

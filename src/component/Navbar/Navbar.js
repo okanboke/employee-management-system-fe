@@ -97,6 +97,7 @@ export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   let history = useNavigate();
+  const currentUser  = localStorage.getItem("currentUser");
 
 
   const handleDrawerOpen = () => {
@@ -137,7 +138,7 @@ export default function MiniDrawer() {
 
     
     <Box sx={{ display: 'flex'}}>
-             {localStorage.getItem("currentUser") == null ? <div></div>
+             {currentUser == null ? <div></div>
 
       
    

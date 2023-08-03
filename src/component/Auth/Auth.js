@@ -1,7 +1,7 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl, FormHelperText, Input, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
-import { Route, useHref, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PostWithoutAuth } from "../../services/HttpService";
 import Grid from '@mui/material/Grid';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,13 +9,16 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import "../Auth/Auth.css"
-import Home from "../Home/Home";
 
 function Auth() {
     //onChange metoduyla bu bilgileri inputlardan alacağız
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    let history = useNavigate();
+    function sleep(time){ //bekletme
+        return new Promise((resolve)=>setTimeout(resolve,time)
+      )
+  }
+    const history = useNavigate();
 
     const handleUsername = (value) => {
         setUsername(value)
@@ -29,7 +32,7 @@ function Auth() {
 
     const sendRequest = (path) => {
 
-        PostWithoutAuth(("/api/auth/"+path), {
+        PostWithoutAuth(("/api/auth/" + path), {
             userName: username,
             password: password,
         })    //services'de metoduna gidecek
@@ -37,24 +40,25 @@ function Auth() {
             .then((res) => res.json())
             .then((result) => {
                 localStorage.setItem("tokenKey", result.accessToken);
-                localStorage.setItem("refreshKey",result.refreshToken); //refresh olmuş tokenla işlem yapacak
+                localStorage.setItem("refreshKey", result.refreshToken); //refresh olmuş tokenla işlem yapacak
                 localStorage.setItem("currentUser", result.userId);
-                localStorage.setItem("userName", result.userName);            
+                localStorage.setItem("userName", result.userName);
+                localStorage.setItem("roleName", result.roles.roleName);
+
             })
             .catch((err) => console.log(err))
     }
     /******************************************* */
 
-
     const handleButton = (path) => {
         sendRequest(path) //register backend e istek atacak
         setUsername("")
         setPassword("")
-        history("/home")
+        sleep(600).then(()=>{ //yarım saniye bekletme
+            history("/home")
+         })       
         //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
     }
-
-
 
     return (
         <Box
@@ -85,6 +89,8 @@ function Auth() {
                                     required
                                     id="outlined-required"
                                     label="Şifre"
+                                    name="password"
+                                    type="password"
                                     fullWidth
                                 />
                                 <Button variant="contained"
@@ -102,13 +108,11 @@ function Auth() {
                                         background: 'linear-gradient(45deg, #C51605 40%, #FD8D14 90%)',
                                         color: 'white'
                                     }}
-                                    onClick={(() => handleButton("register"))}>Admin</Button>
+                                    onClick={(() => handleButton("login"))}>Admin</Button>
                             </div>
-
                         </FormControl>
                     </Grid>
                     <Grid item xs={false} sm={4} md={6} className="image" />
-
                 </Grid>
             </div>
         </Box>
