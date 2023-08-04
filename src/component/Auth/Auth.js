@@ -29,10 +29,10 @@ function Auth() {
     }
     /************************************** */
     //kayıt ol ve giriş yap
+    //admin request
+    const sendAdminRequest = () => {
 
-    const sendRequest = (path) => {
-
-        PostWithoutAuth(("/api/auth/" + path), {
+        PostWithoutAuth(("/api/auth/login"), {
             userName: username,
             password: password,
         })    //services'de metoduna gidecek
@@ -43,20 +43,49 @@ function Auth() {
                 localStorage.setItem("refreshKey", result.refreshToken); //refresh olmuş tokenla işlem yapacak
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.userName);
-                localStorage.setItem("roleName", result.roles.roleName);
+                localStorage.setItem("roleName", result.roleName);
 
             })
             .catch((err) => console.log(err))
     }
     /******************************************* */
-
-    const handleButton = (path) => {
-        sendRequest(path) //register backend e istek atacak
+    //admin Login
+    const handleAdminLogin = () => {
+        sendAdminRequest() //register backend e istek atacak
         setUsername("")
         setPassword("")
-        sleep(600).then(()=>{ //yarım saniye bekletme
+        sleep(700).then(()=>{ //yarım saniye bekletme
             history("/home")
          })       
+        //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
+    }
+    //user Request
+    const sendUserRequest = () => {
+        PostWithoutAuth(("/api/auth/user/login"), {
+            userName: username,
+            password: password,
+        })    //services'de metoduna gidecek
+
+            .then((res) => res.json())
+            .then((result) => {
+                localStorage.setItem("tokenKey", result.accessToken);
+                localStorage.setItem("refreshKey", result.refreshToken); //refresh olmuş tokenla işlem yapacak
+                localStorage.setItem("currentUser", result.userId);
+                localStorage.setItem("userName", result.userName);
+                localStorage.setItem("roleName", result.roles.roleName); //problem var
+
+            })
+            .catch((err) => console.log(err))
+    }
+
+    //user Login
+    const handleUserLogin = () => {
+        sendUserRequest() //register backend e istek atacak
+        setUsername("")
+        setPassword("")
+        sleep(700).then(()=>{ //yarım saniye bekletme
+            history("/home-user")
+         })
         //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
     }
 
@@ -100,7 +129,7 @@ function Auth() {
                                         background: 'linear-gradient(45deg, #27496D 40%, #51C4D3 90%)',
                                         color: 'white',
                                     }}
-                                    onClick={(() => handleButton("login"))}>Giriş</Button>
+                                    onClick={(() => handleUserLogin())}>Giriş</Button>
                                 <FormHelperText style={{ margin: 5, }}>Yönetici girişi</FormHelperText>
                                 <Button variant="contained"
                                     fullWidth
@@ -108,7 +137,7 @@ function Auth() {
                                         background: 'linear-gradient(45deg, #C51605 40%, #FD8D14 90%)',
                                         color: 'white'
                                     }}
-                                    onClick={(() => handleButton("login"))}>Admin</Button>
+                                    onClick={(() => handleAdminLogin())}>Admin</Button>
                             </div>
                         </FormControl>
                     </Grid>

@@ -184,7 +184,7 @@ export default function MiniDrawer() {
                   }}>
           <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="Personeller" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        <ListItemText primary="Profil" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>  
  
         <ListItemButton sx={{
