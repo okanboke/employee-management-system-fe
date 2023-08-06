@@ -176,7 +176,8 @@ export default function MiniDrawer() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
-                href='/home'>
+                href={"/profile/"+currentUser}
+                >
         <ListItemIcon sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',

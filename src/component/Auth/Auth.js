@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { FormControl, FormHelperText, Input, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { FormControl, FormHelperText,  Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { PostWithoutAuth } from "../../services/HttpService";
@@ -43,20 +43,22 @@ function Auth() {
                 localStorage.setItem("refreshKey", result.refreshToken); //refresh olmuş tokenla işlem yapacak
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.userName);
-                localStorage.setItem("roleName", result.roleName);
-
+                localStorage.setItem("roleName", result.roles);
             })
             .catch((err) => console.log(err))
     }
     /******************************************* */
+
     //admin Login
     const handleAdminLogin = () => {
         sendAdminRequest() //register backend e istek atacak
         setUsername("")
         setPassword("")
-        sleep(700).then(()=>{ //yarım saniye bekletme
+        sleep(1000).then(()=>{ //yarım saniye bekletme
+            localStorage.getItem("currentUser") != null ?//user geldi mi? kontrolünden sonra yönlendirme
             history("/home")
-         })       
+            : <div> 404 </div>
+         })     
         //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
     }
     //user Request
@@ -72,8 +74,7 @@ function Auth() {
                 localStorage.setItem("refreshKey", result.refreshToken); //refresh olmuş tokenla işlem yapacak
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.userName);
-                localStorage.setItem("roleName", result.roles.roleName); //problem var
-
+                localStorage.setItem("roleName", result.roles); //problem var
             })
             .catch((err) => console.log(err))
     }
@@ -83,9 +84,12 @@ function Auth() {
         sendUserRequest() //register backend e istek atacak
         setUsername("")
         setPassword("")
-        sleep(700).then(()=>{ //yarım saniye bekletme
-            history("/home-user")
+        sleep(1000).then(()=>{ //yarım saniye bekletme
+            localStorage.getItem("currentUser") != null ?//user geldi mi? kontrolünden sonra yönlendirme
+            history("/home-user") 
+            : <div>404</div>
          })
+        
         //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
     }
 
