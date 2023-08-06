@@ -6,7 +6,7 @@ import Home from './component/Home/Home';
 import Auth from './component/Auth/Auth';
 import CreateUser from './component/Admin/CreateUser';
 import HomeUser from './component/Home/HomeUser';
-import Profile from './component/User/Profile';
+import Profile from './component/User/Profile/Profile';
 
 function App() {  
   const currentUser  = localStorage.getItem("currentUser");
