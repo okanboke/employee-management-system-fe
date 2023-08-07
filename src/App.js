@@ -7,11 +7,20 @@ import Auth from './component/Auth/Auth';
 import CreateUser from './component/Admin/CreateUser';
 import HomeUser from './component/Home/HomeUser';
 import Profile from './component/User/Profile/Profile';
+import {useState} from "react";
 
 function App() {  
   const currentUser  = localStorage.getItem("currentUser");
+  const roles = [localStorage.getItem("roleName")];
+  const [foundUser, setFoundUser] = useState([]);
+  
   const user = 1;
   console.log(localStorage.getItem("currentUser"));
+
+
+  const handleUserChange = (newUser) => {
+    setFoundUser(newUser);
+  }
 
 
 //          {localStorage.getItem("currentUser") != null ? <Navigate to="/home"/>: <Auth/>} 
@@ -21,7 +30,6 @@ function App() {
 /******  */
       
   return (
- 
     <div className="App">
       <BrowserRouter>
      {localStorage.getItem("currentUser") != null ? //user geldi mi? kontrolünden sonra yönlendirme
@@ -37,7 +45,7 @@ function App() {
         <Routes> 
         <Route exact path="/home" element={<Home />} />
         <Route exact path='/create-user' element={<CreateUser/>} />
-        <Route exact path="/" element={<Auth/>}></Route>
+        <Route exact path="/" element={<Auth handleUserChange={handleUserChange} />}></Route>
 
         <Route exact path="/home-user" element={<HomeUser />} />
         <Route exact path={"/profile/"+currentUser} element={<Profile />} />

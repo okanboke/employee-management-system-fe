@@ -10,10 +10,11 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import "../Auth/Auth.css"
 
-function Auth() {
+function Auth({handleUserChange}) {
     //onChange metoduyla bu bilgileri inputlardan alacağız
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [user, setUser] = useState([]);
     function sleep(time){ //bekletme
         return new Promise((resolve)=>setTimeout(resolve,time)
       )
@@ -39,14 +40,18 @@ function Auth() {
 
             .then((res) => res.json())
             .then((result) => {
+                setUser(result)
                 localStorage.setItem("tokenKey", result.accessToken);
                 localStorage.setItem("refreshKey", result.refreshToken); //refresh olmuş tokenla işlem yapacak
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.userName);
                 localStorage.setItem("roleName", result.roles);
+                handleUserChange(result);
             })
             .catch((err) => console.log(err))
     }
+
+
     /******************************************* */
 
     //admin Login
@@ -70,11 +75,13 @@ function Auth() {
 
             .then((res) => res.json())
             .then((result) => {
+                setUser(result)
                 localStorage.setItem("tokenKey", result.accessToken);
                 localStorage.setItem("refreshKey", result.refreshToken); //refresh olmuş tokenla işlem yapacak
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.userName);
                 localStorage.setItem("roleName", result.roles); //problem var
+                handleUserChange(result.roles.roleName);
             })
             .catch((err) => console.log(err))
     }
