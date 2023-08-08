@@ -17,9 +17,8 @@ import ListItemText from '@mui/material/ListItemText';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import MessageIcon from '@mui/icons-material/Message';
-import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
 import LoginIcon from '@mui/icons-material/Login';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import HistoryIcon from '@mui/icons-material/History';
 import { useNavigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
 
@@ -111,6 +110,7 @@ export default function MiniDrawer() {
     localStorage.removeItem("refreshKey")
     localStorage.removeItem("userName")
     localStorage.removeItem("roleName")
+    localStorage.removeItem("addressId")
     history("/")
   }
 /*
@@ -137,9 +137,6 @@ export default function MiniDrawer() {
     
     <Box sx={{ display: 'flex'}}>
              {currentUser == null ? <div></div>
-
-      
-   
 :<div>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{backgroundColor: "#1c2537"}}>
@@ -187,22 +184,6 @@ export default function MiniDrawer() {
         </ListItemIcon>
         <ListItemText primary="Profil" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>  
- 
-        <ListItemButton sx={{
-                  maxHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                href='/create-user'>
-        <ListItemIcon sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}>
-          <PersonAddAlt1Icon />
-        </ListItemIcon>
-        <ListItemText primary="Personel ekle" sx={{ visibility: open ?  "visible" : "hidden"}} />
-      </ListItemButton>  
 
         <ListItemButton sx={{
                   maxHeight: 48,
@@ -232,7 +213,7 @@ export default function MiniDrawer() {
                   }}>
           <BeachAccessIcon />
         </ListItemIcon>
-        <ListItemText primary="İzin istekleri" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        <ListItemText primary="İzin isteği" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
 
       <ListItemButton sx={{
@@ -260,9 +241,9 @@ export default function MiniDrawer() {
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
                   }}>
-          <EnergySavingsLeafIcon />
+          <HistoryIcon />
         </ListItemIcon>
-        <ListItemText primary="İzindeki personeller" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        <ListItemText primary="İzinler" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
         <Divider />
       <ListItemButton onClick = {onClick}

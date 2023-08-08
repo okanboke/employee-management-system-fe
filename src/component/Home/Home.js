@@ -7,6 +7,7 @@ import { OverviewTotalCustomers } from "../overview/overview-total-users";
 import { OverviewTasksProgress } from "../overview/overview-tasks-progress";
 import { GetWithAuth } from "../../services/HttpService";
 import Auth from "../Auth/Auth";
+import { connect } from "react-redux";
 
 
 
@@ -68,7 +69,8 @@ const columns = [
     refreshUser()
   }, []) //herhangi bir değişiklik olduğunda sayfayı yeniler
 
-
+//redux'dan 
+const { value } = this.props;
     return (
         <Box 
       component="main"
@@ -121,10 +123,29 @@ const columns = [
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
       />
+
+
+
+    <div>
+      {value}
+    </div>
+
     </Box>
     </Container>
     </Box>
+  
+    
     );
 }
+const mapStateToProps = (state) => { //redux'tan bir state alacak içerisinde döndürecek...
+  const { counter } = state; //böyle de tutulabilir. 
+  return{
+    value: counter.value,
+  };
+};
 
-export default Home;
+//redux statelerini kullanabilmemiz için connect yazıyoruz
+export default connect(mapStateToProps)(Home);
+
+//mapStateToProps = stateler.
+//virgül koyulursa 2. parametre = actionlar.

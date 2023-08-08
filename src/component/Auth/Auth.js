@@ -100,12 +100,14 @@ function Auth({handleUserChange}) {
         //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
     }
 
+
     return (
         <Box
             component="form"
             noValidate
             autoComplete="off"
         >
+
             <div className="ortalama">
                 <Grid container component="main" className="foto" style={{ height: "100vh" }}>
                     <CssBaseline />

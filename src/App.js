@@ -13,8 +13,8 @@ function App() {
   const currentUser  = localStorage.getItem("currentUser");
   const roles = [localStorage.getItem("roleName")];
   const [foundUser, setFoundUser] = useState([]);
-  
-  const user = 1;
+
+  const user = 2;
   console.log(localStorage.getItem("currentUser"));
 
 
@@ -27,17 +27,24 @@ function App() {
 
 //{current != "user" ?:
 
+/*
+currentUser === user?( //problem var
+          <UserNavbar></UserNavbar>
+          ) : (
+          <Navbar></Navbar>
+          ) : <div></div>
+
 /******  */
       
   return (
     <div className="App">
       <BrowserRouter>
-     {localStorage.getItem("currentUser") != null ? //user geldi mi? kontrolünden sonra yönlendirme
-      currentUser == user? ( //problem var
+     {currentUser !== null?  //user geldi mi? kontrolünden sonra yönlendirme
+        JSON.parse(currentUser) === user?( //problem var
+        <Navbar></Navbar>
+        ) : (
           <UserNavbar></UserNavbar>
-          ) : (
-          <Navbar></Navbar>
-          ) : <div></div>
+        ) : <div></div>
      }
 
           

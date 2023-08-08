@@ -111,6 +111,7 @@ export default function MiniDrawer() {
     localStorage.removeItem("refreshKey")
     localStorage.removeItem("userName")
     localStorage.removeItem("roleName")
+    localStorage.removeItem("addressId")
     history("/")
   }
 /*
