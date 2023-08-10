@@ -7,6 +7,7 @@ import Auth from './component/Auth/Auth';
 import CreateUser from './component/Admin/CreateUser';
 import HomeUser from './component/Home/HomeUser';
 import Profile from './component/User/Profile/Profile';
+import PermissionTabs from './component/Permission/PermissionTabs'
 import {useState} from "react";
 
 function App() {  
@@ -45,6 +46,7 @@ currentUser === user?( //problem var
         ) : (
           <UserNavbar></UserNavbar>
         ) : <div></div>
+
      }
 
           
@@ -56,6 +58,7 @@ currentUser === user?( //problem var
 
         <Route exact path="/home-user" element={<HomeUser />} />
         <Route exact path={"/profile/"+currentUser} element={<Profile />} />
+        <Route exact path={"/permissions"} element={<PermissionTabs />}/>
         </Routes>
       </BrowserRouter>
       <header className="App-header">

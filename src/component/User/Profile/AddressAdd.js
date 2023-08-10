@@ -22,7 +22,7 @@ export default function BasicModalDialog() {
     //const userId = localStorage.getItem("currentUser")
     const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
     const [open, setOpen] = React.useState(false);
-    let disabled = localStorage.getItem("addressId") ==  null?  false:true; //adres bilgisi varsa yenisi eklenemeyecek
+    let disabled = localStorage.getItem("addressId") === null? false:true; //adres bilgisi varsa yenisi eklenemeyecek
 
 
   //adress bilgileri
@@ -185,13 +185,13 @@ useEffect(() => {
               </FormControl>
               <FormControl>
                 <FormLabel>İl</FormLabel>
-                <Input  required value={city}
-                onChange = { (i) => handleCity(i.target.value)}/> {address.country}
+                <Input  required value={city} //{address.country}
+                onChange = { (i) => handleCity(i.target.value)}/> 
               </FormControl>
               <FormControl>
                 <FormLabel>İlçe</FormLabel>
                 <Input required value={district}
-                onChange = { (i) => handleDistrict(i.target.value)}/> {address.city}
+                onChange = { (i) => handleDistrict(i.target.value)}/>
               </FormControl>
               <FormControl>
                 <FormLabel>Cadde/Sokak</FormLabel>
@@ -213,8 +213,7 @@ useEffect(() => {
               fullWidth
               onClick={handleUpdateAddress}
               style={{marginRight: "1%"}}>Adresi Düzenle</Button>
-              {disabled ? 
-              <Button type="submit"
+              {disabled? <Button type="submit"
               disabled
               fullWidth
               color='neutral'

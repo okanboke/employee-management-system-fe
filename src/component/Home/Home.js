@@ -70,7 +70,7 @@ const columns = [
   }, []) //herhangi bir değişiklik olduğunda sayfayı yeniler
 
 //redux'dan 
-const { value } = this.props;
+//const { value } = this.props;
     return (
         <Box 
       component="main"
@@ -126,9 +126,7 @@ const { value } = this.props;
 
 
 
-    <div>
-      {value}
-    </div>
+   
 
     </Box>
     </Container>
@@ -137,15 +135,15 @@ const { value } = this.props;
     
     );
 }
-const mapStateToProps = (state) => { //redux'tan bir state alacak içerisinde döndürecek...
+/*const mapStateToProps = (state) => { //redux'tan bir state alacak içerisinde döndürecek...
   const { counter } = state; //böyle de tutulabilir. 
   return{
     value: counter.value,
   };
-};
+};*/
 
 //redux statelerini kullanabilmemiz için connect yazıyoruz
-export default connect(mapStateToProps)(Home);
+export default /* connect(mapStateToProps)*/Home;
 
 //mapStateToProps = stateler.
 //virgül koyulursa 2. parametre = actionlar.

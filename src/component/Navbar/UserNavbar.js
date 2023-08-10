@@ -21,6 +21,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import HistoryIcon from '@mui/icons-material/History';
 import { useNavigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
+import { Link } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -139,7 +140,7 @@ export default function MiniDrawer() {
              {currentUser == null ? <div></div>
 :<div>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{backgroundColor: "#1c2537"}}>
+      <AppBar position="fixed" open={open} sx={{backgroundColor: "#6120ff" }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -153,8 +154,11 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
+          <Link href="#" color="inherit" underline="none">
           <Typography variant="h6" noWrap component="div" to>Finastech İzin Sistemi
           </Typography>
+          </Link>
+
         </Toolbar>
       </AppBar>
       
@@ -205,7 +209,8 @@ export default function MiniDrawer() {
                   maxHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                }}>
+                }}
+                href={"/permissions"}>
         <ListItemIcon sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',

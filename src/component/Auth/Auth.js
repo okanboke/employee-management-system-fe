@@ -107,12 +107,10 @@ function Auth({handleUserChange}) {
             noValidate
             autoComplete="off"
         >
-
             <div className="ortalama">
                 <Grid container component="main" className="foto" style={{ height: "100vh" }}>
                     <CssBaseline />
                     <Grid item xs={12} sm={8} md={6} component={Paper} elevation={3} square style={{ boxShadow: "none" }} >
-
                         <FormControl style={{ marginTop: "15%" }} >
                             <Typography align="left"
                                 variant="h2">Giriş</Typography>
@@ -139,7 +137,7 @@ function Auth({handleUserChange}) {
                                     fullWidth
                                     style={{
                                         marginTop: 30,
-                                        background: 'linear-gradient(45deg, #27496D 40%, #51C4D3 90%)',
+                                        background: 'linear-gradient(45deg, #6120ff 40%, #8f6aff 80%)',
                                         color: 'white',
                                     }}
                                     onClick={(() => handleUserLogin())}>Giriş</Button>
@@ -147,7 +145,7 @@ function Auth({handleUserChange}) {
                                 <Button variant="contained"
                                     fullWidth
                                     style={{
-                                        background: 'linear-gradient(45deg, #C51605 40%, #FD8D14 90%)',
+                                        background: 'linear-gradient(45deg, #C51605 40%, #FD8D14 95%)',
                                         color: 'white'
                                     }}
                                     onClick={(() => handleAdminLogin())}>Admin</Button>

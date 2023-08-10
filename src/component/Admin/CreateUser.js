@@ -126,9 +126,9 @@ function CreateUser(props) {
         <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
 
-      <Snackbar open={isSent} autoHideDuration={4000} onClose={handleClose}>
+      <Snackbar open={isSent} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
-          İlanınız başarıyla yayınlandı!
+          Kullanıcı Başarıyla Eklendi!
         </Alert>
 
       </Snackbar>
