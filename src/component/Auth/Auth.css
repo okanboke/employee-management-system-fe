@@ -9,5 +9,6 @@
     background-color: lightblue;
     background-size: cover;
     background-position: center;
-    /*background-blend-mode: hard-light;*/
+    background-blend-mode: multiply;
+
 }

@@ -1,4 +1,4 @@
-import  React, { useState } from 'react';
+import  React, { useEffect, useState } from 'react';
 import { Box, TextField } from "@mui/material"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,23 +13,26 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { PostingWithoutAuth } from '../../services/HttpService';
+import { GetWithAuth, PostingWithoutAuth } from '../../services/HttpService';
 import Button from '@mui/joy/Button';
 
 function JustificationPermission() {
     const userId = localStorage.getItem("currentUser") //giriş yapmış userID
-    const [permissionType, setPermissionType] = React.useState(""); //select
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState(null);
+    const [justPermissionType, setJustPermissionType] = useState(""); //select
     const [permissionDescription, setPermissionDescription] = useState("");
     const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
     const [startDate, setStartDate] = useState(dayjs(""));
     const [endDate, setEndDate] = useState(dayjs(""));
+    const [permissionType, setPermissionType] = useState([]);
 
 
       //İzin Ekleme
       const permissionSave = () => { //ilanı yayınlamak için back-end tarafına yolluyoruz.
         PostingWithoutAuth("/api/permissions/create", {
             userId: userId,
-            permissionType: permissionType,
+            permissionTypeId: justPermissionType.toString(),
             permissionDescription: permissionDescription,
             startDate: startDate,
             endDate: endDate
@@ -38,6 +41,25 @@ function JustificationPermission() {
             .then((res) => res.json())
             .catch((err) => console.log(err))
     }
+
+        //İzin türü görüntüleme
+        const getPermissionType = () => {
+
+          GetWithAuth("/api/permissions/type//user/list-types")                              //AdminController classından backend den oluşturduğumuz isteği fetch ediyoruz...
+              .then(res => res.json())                        //gelen isteği parse ediyoruz
+              .then(
+                  (data) => {                               //result gelme durumunda ne yapmamız gerektiği
+                      setIsLoaded(true);              //data geldiğinde isLoaded i true yapmamız gerekiyor
+                      setPermissionType(data)   //gelen datayı productList'e result ediyoruz searcbar ile arıyoruzz
+                  },
+  
+                  (error) => {                                //error oluşması durumunda ne yapmamız gerekdiği
+                      console.log(error)
+                      setIsLoaded(true);                      //sayfa döner durumda kalmasın diye true yapıyoruz 
+                      setError(error);                        //erroru kullanıcıya göstereceğiz
+                  }
+              )
+      }
 
 
     function Copyright(props) {
@@ -56,9 +78,9 @@ function JustificationPermission() {
           //Mazere İzni ekleme
     async function handleSubmit() { //buttona basıldığında aldığımız değerleri objeye dönüştürüp göndereceğiz
 
-        permissionSave(); //save fonksiyonu çağırıyoruz.  
+        permissionSave(""); //save fonksiyonu çağırıyoruz.  
         setIsSent(true);
-        setPermissionType("");
+        setJustPermissionType();
         setPermissionDescription("");
         setStartDate("");
         setEndDate("");
@@ -70,7 +92,8 @@ function JustificationPermission() {
       const defaultTheme = createTheme();
 
     const handlePermissionType = (event) => { //select
-        setPermissionType(event.target.value);
+        setJustPermissionType(event.target.value);
+        console.log(justPermissionType);
         setIsSent(false);
     };
 
@@ -89,25 +112,36 @@ function JustificationPermission() {
         setPermissionDescription(value);
         setIsSent(false);
     }
+    
+    useEffect(() => {
+      getPermissionType();//izin türleri sayfa açıldığında select içerisine Get isteği yapılıyor.
+    }, [])    
     return (
         <Box color={"#fdfdfd"}>
             <Box display={"flex"} justifyContent={"center"}>
             <Grid sx={{width:"80vh"}}>
             <Stack spacing={2}>
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">İzin Türü</InputLabel>
-                    <Select
-                        required
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={permissionType}
-                        label="İzin Türü"
-                        onChange={handlePermissionType}
-                    >
-                        <MenuItem value={"Hastane İzni"}>Hastane İzni</MenuItem>
-                        <MenuItem value={"Düğün İzni"}>Düğün İzni</MenuItem>
-                        <MenuItem value={"Özel Durum İzni"}>Özel Durum İzni</MenuItem>
-                    </Select>
+                    <InputLabel id="demo-simple-select-label">Mazere İzni Türleri</InputLabel>
+                                <Select
+                                fullWidth
+                                required
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={justPermissionType}
+                                label="Mazere İzni Türleri"
+                                onChange={handlePermissionType}
+                            >
+                                {permissionType.map(option => {
+                                    return (
+                                        <MenuItem key={option.justPerId} value={option.justPerId}>
+                                            {option.justPermissionType}
+                                        </MenuItem>
+                                    )
+                                })}
+                            </Select>
+
+
                 </FormControl>
                 <TextField onChange={(i) => handlePermissionDescription(i.target.value)}
                     required
@@ -139,7 +173,7 @@ function JustificationPermission() {
               color='neutral'
               onClick={handleSubmit}
               style={{
-                background: 'linear-gradient(45deg, #6120ff 40%, #8f6aff 80%)',
+                background: 'linear-gradient(45deg, #6120ff 40%, #8f6aff 90%)',
                 color: 'white'}}>İzin İste</Button>
                 </Stack>
             </Grid>

@@ -7,7 +7,8 @@ import Auth from './component/Auth/Auth';
 import CreateUser from './component/Admin/CreateUser';
 import HomeUser from './component/Home/HomeUser';
 import Profile from './component/User/Profile/Profile';
-import PermissionTabs from './component/Permission/PermissionTabs'
+import PermissionTabs from './component/Permission/PermissionTabs';
+import PermissionRequest from './component/Admin/PermissionRequest';
 import {useState} from "react";
 
 function App() {  
@@ -55,6 +56,7 @@ currentUser === user?( //problem var
         <Route exact path="/home" element={<Home />} />
         <Route exact path='/create-user' element={<CreateUser/>} />
         <Route exact path="/" element={<Auth handleUserChange={handleUserChange} />}></Route>
+        <Route exact path="/permission/request" element={<PermissionRequest />} />
 
         <Route exact path="/home-user" element={<HomeUser />} />
         <Route exact path={"/profile/"+currentUser} element={<Profile />} />

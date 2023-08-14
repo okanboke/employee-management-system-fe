@@ -153,7 +153,8 @@ useEffect(() => {
       <Button
       fullWidth
         variant="outlined"
-        color="neutral"
+        sx={{background: 'linear-gradient(45deg, #6120ff 60%, #8f6aff 90%)',
+          color: 'white'}}
         startDecorator={<Add />}
         onClick={() => handleNewAddress()}
       >
@@ -212,7 +213,9 @@ useEffect(() => {
               <Button type="submit"
               fullWidth
               onClick={handleUpdateAddress}
-              style={{marginRight: "1%"}}>Adresi Düzenle</Button>
+              style={{marginRight: "1%",
+              background: 'linear-gradient(45deg, #6120ff 60%, #8f6aff 90%)',
+              color: 'white'}}>Adresi Düzenle</Button>
               {disabled? <Button type="submit"
               disabled
               fullWidth

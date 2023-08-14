@@ -143,7 +143,7 @@ export default function MiniDrawer() {
    
 :<div>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{backgroundColor: "#1c2537"}}>
+      <AppBar position="fixed" open={open} sx={{backgroundColor: "#6120ff" }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -224,7 +224,8 @@ export default function MiniDrawer() {
                   maxHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                }}>
+                }}
+                href='/permission/request'>
         <ListItemIcon sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',

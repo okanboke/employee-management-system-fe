@@ -141,7 +141,9 @@ function CreateUser(props) {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <Avatar sx={{ m: 1,
+                background: 'linear-gradient(45deg, #6120ff 60%, #8f6aff 90%)',
+                color: 'white'}}>
           <PersonAddAlt1Icon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -217,7 +219,9 @@ function CreateUser(props) {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2,
+                background: 'linear-gradient(45deg, #6120ff 60%, #8f6aff 90%)',
+                color: 'white' }}
               onClick={handleSaveCreateUser}
             >
               Kaydet

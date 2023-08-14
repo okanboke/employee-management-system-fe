@@ -1,18 +1,10 @@
 import React, {useState, useEffect} from "react";
-import Navbar from "../Navbar/Navbar"
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import { Container, Grid } from "@mui/material";
 import { OverviewTotalCustomers } from "../overview/overview-total-users";
 import { OverviewTasksProgress } from "../overview/overview-tasks-progress";
 import { GetWithAuth } from "../../services/HttpService";
-import Auth from "../Auth/Auth";
-import { connect } from "react-redux";
-
-
-
-
-
 
 
 function Home() {
@@ -123,11 +115,6 @@ const columns = [
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
       />
-
-
-
-   
-
     </Box>
     </Container>
     </Box>

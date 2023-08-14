@@ -4,7 +4,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import JustificationPermission from './JustificationPermission';
+import JustificationPerRequest from './JustificationPerRequest';
 
 export default function LabTabs() {
   const [value, setValue] = React.useState('1');
@@ -14,7 +14,8 @@ export default function LabTabs() {
   };
 
   return (
-    <Box display={"block"} sx={{typography: 'body1', marginLeft: "10vh", marginRight: "10vh", marginTop: '10vh'}}>
+    <div style={{display: "block"}}>
+    <Box sx={{typography: 'body1', marginLeft: "10vh", marginRight: "10vh", marginTop: '10vh'}}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -22,9 +23,10 @@ export default function LabTabs() {
             <Tab label="Senelik" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1"><JustificationPermission></JustificationPermission></TabPanel>
+        <TabPanel value="1"><JustificationPerRequest></JustificationPerRequest></TabPanel>
         <TabPanel value="2">Item Two</TabPanel>
       </TabContext>
     </Box>
+    </div>
   );
 }
