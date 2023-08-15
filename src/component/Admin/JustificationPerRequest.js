@@ -15,6 +15,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
+
 function JustificationPerRequest() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -23,6 +24,9 @@ function JustificationPerRequest() {
     const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
     const [justPermissionType, setJustPermissionType] = useState("");
     const [permissionType, setPermissionType] = useState([]);
+    const [listJustPermissions, setListJustPermissions] = useState([]);
+    const [checkboxSelection, setCheckboxSelection] = React.useState(true); //seçilen row
+    const [rowSelectedRowId, setRowSelected] = useState();
 
     const handleNewAddress = () => { //Adres ekleme alanı açıldığında
         console.log(permissionType);
@@ -42,10 +46,17 @@ function JustificationPerRequest() {
         setIsSent(false);
     };
 
+    //row seçildiğinde
+    const handleRowClick = (params, // GridRowParams
+    event, // MuiEvent<React.MouseEvent<HTMLElement>>
+    details,) => {
+        setRowSelected(params.row.id); 
+    }
+
     //İzin türü görüntüleme
     const getPermissionType = () => {
 
-        GetWithAuth("/api/permissions/type//user/list-types")                              //AdminController classından backend den oluşturduğumuz isteği fetch ediyoruz...
+        GetWithAuth("/api/permissions/type/user/list-types")                              //AdminController classından backend den oluşturduğumuz isteği fetch ediyoruz...
             .then(res => res.json())                        //gelen isteği parse ediyoruz
             .then(
                 (data) => {                               //result gelme durumunda ne yapmamız gerektiği
@@ -60,6 +71,24 @@ function JustificationPerRequest() {
                 }
             )
     }
+
+    //admin arayüzünde gelen izin isteklerini listeleme
+    const getJustificationPermissions = () => {
+        GetWithAuth("/api/admin/list-justification")
+            .then(res => res.json())
+            .then(
+                (listPermissions) => {
+                    setIsLoaded(true);
+                    setListJustPermissions(listPermissions)
+                },
+                (error) => {
+                    console.log(error);
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            )
+    }
+
     //İzin türü ekleme
     const savePermissionType = () => { //ilanı yayınlamak için back-end tarafına yolluyoruz.
         PostingWithoutAuth("/api/permissions/type/admin/create-type", {
@@ -79,28 +108,37 @@ function JustificationPerRequest() {
 
         //refreshProducts();       
     }
+
     const columns = [
-        { field: "id", headerName: 'ID', width: 40 },
-        { field: 'firstName', headerName: 'Adı', width: 120 },
-        { field: 'lastName', headerName: 'Soyadı', width: 120 },
+        
+        { field: "id", headerName: 'İzin ID', width: 60 },
+        { field: 'firstName', headerName: 'Adı', width: 80 },
+        { field: 'lastName', headerName: 'Soyadı', width: 80 },
+        { field: 'permissionType', headerName: 'İzin Türü', width: 80 },
+        { field: 'permissionDescription', headerName: 'Açıklama', width: 120 },
+        { field: 'userName', headerName: 'E-Mail', width: 120, },
+
         {
-            field: 'userName',
-            headerName: 'E-Mail',
-            width: 240,
-        },
-        {
-            field: 'userDate',
-            headerName: 'İşe Başlangıç Tarihi',
+            field: 'startDate', headerName: 'Başlangıç Tarihi', width: 80,
             //sortable: false,
-            width: 140,
             // valueGetter: (params) =>
             //    `${params.row.firstName || ''} ${params.row.lastName || ''}`,
         },
+        {
+            field: 'endDate', headerName: 'Bitiş Tarihi', width: 80,
+            //sortable: false,
+
+            // valueGetter: (params) =>
+            //    `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+        },
+        { field: "approvalStatus",type: "boolean", headerName: 'Durum',width: 80},
     ];
 
     useEffect(() => {
+        getJustificationPermissions();
         //handlePermissionType();
-      }, [])
+    }, [])
+    
     return (
         <Box
             component="main"
@@ -166,8 +204,8 @@ function JustificationPerRequest() {
                                 id="demo-simple-select"
                                 //value={permissionType.justPerId}
                                 label="İzin Türü"
-                                //onChange={handlePermissionType}
-                                //onClick={handlePermissionType}
+                            //onChange={handlePermissionType}
+                            //onClick={handlePermissionType}
                             >
                                 {permissionType.map(option => {
                                     return (
@@ -183,18 +221,19 @@ function JustificationPerRequest() {
             </Box>
             <Container maxWidth="xl">
                 <Box sx={{
-                    marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '75%', background: "#ffffff"
+                    marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '90%', background: "#ffffff"
                 }}>
-
                     <DataGrid
-                        rows={userList}
+                        rows={listJustPermissions}
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
                         sx={{ borderRadius: "16px" }}
-
-                        disableSelectionOnClick
+                        checkboxSelection={listJustPermissions} {...listJustPermissions}
+                        onRowClick={handleRowClick} //seçilen row'u handleRowClick metodunda permissionId'yi set edeceğiz
+                        //disableSelectionOnClick
                         experimentalFeatures={{ newEditingApi: true }}
+
                     />
                 </Box>
             </Container>

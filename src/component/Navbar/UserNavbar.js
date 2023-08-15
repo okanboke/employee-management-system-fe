@@ -218,7 +218,7 @@ export default function MiniDrawer() {
                   }}>
           <BeachAccessIcon />
         </ListItemIcon>
-        <ListItemText primary="İzin isteği" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        <ListItemText primary="İzin İstekleri" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
 
       <ListItemButton sx={{

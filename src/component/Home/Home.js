@@ -32,7 +32,7 @@ function Home() {
       )
   }
 
-
+//çalışanları listeleme
 const columns = [
     { field: "id", headerName: 'ID', width: 60 },
     { field: 'firstName', headerName: 'Adı', width: 140 },

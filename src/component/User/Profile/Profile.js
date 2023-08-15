@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import { GetWithAuth } from "../../../services/HttpService";
-import { Button, Typography } from "@mui/material";
-import AspectRatio from '@mui/joy/AspectRatio';
+import {  Typography } from "@mui/material";
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
@@ -87,13 +86,8 @@ function Profile() {
                                 <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
                                     <Divider inset="context" />
                                     <CardContent orientation="horizontal">
-                                        <Typography level="body-xs" fontWeight="md" textColor="text.secondary">
-                                            Mesleği
-                                        </Typography>
+                                        <Typography> </Typography>
                                         <Divider orientation="vertical" />
-                                        <Typography level="body-xs" fontWeight="md" textColor="text.secondary">
-                                            alanı
-                                        </Typography>
                                     </CardContent>
                                 </CardOverflow>
                             </Card>
