@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import { Container } from "@mui/material";
-import { GetWithAuth, PostingWithoutAuth } from "../../services/HttpService";
+import { GetWithAuth, PostingWithoutAuth, PutWithAuth } from "../../services/HttpService";
 import { Button, Typography } from "@mui/joy";
-import { Add } from "@mui/icons-material";
+import { Add, RoundaboutLeft } from "@mui/icons-material";
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
@@ -26,8 +26,16 @@ function JustificationPerRequest() {
     const [permissionType, setPermissionType] = useState([]);
     const [listJustPermissions, setListJustPermissions] = useState([]);
     const [checkboxSelection, setCheckboxSelection] = React.useState(true); //seçilen row
-    const [rowSelectedRowId, setRowSelected] = useState();
+    const [rowSelectedRowId, setRowSelectedRowId] = useState();
+    let status = true;
+    let checkStatus = listJustPermissions.filter(x => x.approvalStatus);
 
+    console.log(checkStatus);
+
+    function sleep(time){ //bekletme
+        return new Promise((resolve)=>setTimeout(resolve,time)
+      )
+  }
     const handleNewAddress = () => { //Adres ekleme alanı açıldığında
         console.log(permissionType);
         getPermissionType();
@@ -50,8 +58,42 @@ function JustificationPerRequest() {
     const handleRowClick = (params, // GridRowParams
     event, // MuiEvent<React.MouseEvent<HTMLElement>>
     details,) => {
-        setRowSelected(params.row.id); 
+        //setRowSelectedRowId(params.row.id); 
     }
+
+     //row button
+     const handleRowButton = (params, // GridRowParams
+     event, // MuiEvent<React.MouseEvent<HTMLElement>>
+     details,) => {
+        //setRowSelectedRowId(event.row.id)
+        if (event.row.approvalStatus === true) { //izin durumu true ise işlem yapmayacak.
+            alert("Daha Önce Onaylandı...")
+        } else {
+            updatePermissionStatus(event.row.id)
+        }
+     }
+
+       //izin onayı
+    const updatePermissionStatus = (id) => { //ilanı yayınlamak için back-end tarafına yolluyoruz.
+        PutWithAuth("/api/permissions/admin/update-status", {
+            permissionId: id,
+            approvalStatus: status,
+
+        }
+        )//services'de metdouna gidecek
+            .then((res) => res.json())
+            .then(data => {
+                //onaylama buttonuna tıklandığında sayfada değer değişecek veya sayfa yenilenmiş olacak...
+                const copyOfList = [...listJustPermissions];
+                const copyOfObject = copyOfList.find(x => x.id === data.permissionId);
+                const indexOfObject = copyOfList.indexOf(copyOfObject);
+                let changedObject = {...copyOfObject, approvalStatus : data.approvalStatus};
+                copyOfList[indexOfObject] = changedObject;
+                setListJustPermissions(copyOfList);
+            })
+            .catch((err) => console.log(err))
+    }
+ 
 
     //İzin türü görüntüleme
     const getPermissionType = () => {
@@ -111,7 +153,7 @@ function JustificationPerRequest() {
 
     const columns = [
         
-        { field: "id", headerName: 'İzin ID', width: 60 },
+        { field: "id", headerName: 'İzin ID', width: 60},
         { field: 'firstName', headerName: 'Adı', width: 80 },
         { field: 'lastName', headerName: 'Soyadı', width: 80 },
         { field: 'permissionType', headerName: 'İzin Türü', width: 80 },
@@ -132,6 +174,28 @@ function JustificationPerRequest() {
             //    `${params.row.firstName || ''} ${params.row.lastName || ''}`,
         },
         { field: "approvalStatus",type: "boolean", headerName: 'Durum',width: 80},
+
+        {
+            field: "Onay", width: 100,
+            renderCell: (cellValues) => {
+                return(
+                    cellValues.row.approvalStatus === false?
+                    <Button
+                    fullWidth
+                    sx={{background: "#4BB543",color: 'white'}}
+                    variant="contained"
+                    color="neutral"
+                    onClick={(event) => {
+                      handleRowButton(event, cellValues);
+                    }} //eğer onaylandı ise farklı button göster
+                  >
+                    Onayla
+                  </Button>:
+                  <div><Typography fontStyle={"oblique"} sx={{color: "#4BB543"}}>Onaylandı</Typography></div>
+                
+                  );
+            }
+          }
     ];
 
     useEffect(() => {
@@ -221,17 +285,21 @@ function JustificationPerRequest() {
             </Box>
             <Container maxWidth="xl">
                 <Box sx={{
-                    marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '90%', background: "#ffffff"
+                    marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '87%', background: "#ffffff"
                 }}>
                     <DataGrid
                         rows={listJustPermissions}
                         columns={columns}
                         pageSize={5}
-                        rowsPerPageOptions={[5]}
+                        initialState={{
+                            sorting: {
+                              sortModel: [{ field: 'id', sort: 'desc' }], //sıralama
+                            },
+                          }}                        rowsPerPageOptions={[5]}
                         sx={{ borderRadius: "16px" }}
-                        checkboxSelection={listJustPermissions} {...listJustPermissions}
-                        onRowClick={handleRowClick} //seçilen row'u handleRowClick metodunda permissionId'yi set edeceğiz
-                        //disableSelectionOnClick
+                        //checkboxSelection={listJustPermissions} {...listJustPermissions}
+                        //onRowClick={handleRowClick} //seçilen row'u handleRowClick metodunda permissionId'yi set edeceğiz
+                        disableSelectionOnClick
                         experimentalFeatures={{ newEditingApi: true }}
 
                     />

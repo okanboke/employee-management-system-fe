@@ -23,6 +23,66 @@ import { useNavigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
 import { Link } from '@mui/material';
 
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import PropTypes from 'prop-types';
+
+
+import {
+  Link as RouterLink,
+  Route,
+  Routes,
+  MemoryRouter,
+  useLocation,
+} from 'react-router-dom';
+
+/************ COLLAPSE */
+ 
+
+const breadcrumbNameMap = {
+  '/inbox': 'İzin İstekleri',
+  '/inbox/important': 'Important',
+  '/trash': 'Trash',
+  '/spam': 'Spam',
+  '/drafts': 'Drafts',
+};
+
+function ListItemLink(props) {
+  const { to, open, ...other } = props;
+  const primary = breadcrumbNameMap[to];
+
+  let icon = null;
+  if (open != null) {
+    icon = open ? <ExpandLess /> : <ExpandMore />;
+  }
+
+  return (
+    <li>
+      <ListItem button component={RouterLink} to={to} {...other}>
+        <ListItemText primary={primary} />
+        {icon}
+      </ListItem>
+    </li>
+  );
+}
+
+ListItemLink.propTypes = {
+  open: PropTypes.bool,
+  to: PropTypes.string.isRequired,
+};
+
+function LinkRouter(props) {
+  return <Link {...props} component={RouterLink} />;
+}
+
+ 
+ //******************* */
+
+
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -95,6 +155,12 @@ export default function MiniDrawer() {
   const [open, setOpen] = React.useState(false);
   let history = useNavigate();
   const currentUser  = localStorage.getItem("currentUser");
+
+  const [openCollapse, setOpenCollapse] = React.useState(true); //collapse
+
+  const handleClick = () => {
+    setOpenCollapse((prevOpen) => !prevOpen);
+  };
 
 
   const handleDrawerOpen = () => {
@@ -235,6 +301,15 @@ export default function MiniDrawer() {
         </ListItemIcon>
         <ListItemText primary="Mesaj gönder" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
+
+            <List>
+              <ListItemLink to="/inbox" sx={{ visibility: open ?  "visible" : "hidden"}} open={openCollapse} onClick={handleClick} />
+              <Collapse component="li" in={openCollapse} timeout="auto" unmountOnExit>
+                <List disablePadding>
+                  <ListItemLink sx={{ pl: 4 }} to="/inbox/important" />
+                </List>
+              </Collapse>
+            </List>
 
       <ListItemButton sx={{
                   maxHeight: 48,
