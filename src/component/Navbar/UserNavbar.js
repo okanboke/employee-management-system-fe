@@ -23,64 +23,49 @@ import { useNavigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
 import { Link } from '@mui/material';
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import PropTypes from 'prop-types';
+/******* ACCOURDİON  ***/
+
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import MuiAccordion from '@mui/material/Accordion';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props}/>
+))(({ theme }) => ({
+  border: `0px solid ${theme.palette.divider}`,
+  '&:not(:last-child)': {
+    borderBottom: 0,
+  },
+  '&:before': {
+    display: 'none',
+  },
+}));
+
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary
+    expandIcon={<HistoryIcon />}
+    {...props}
+  />
+))(({ theme }) => ({
+
+  flexDirection: 'row-reverse',
+  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+    transform: 'rotate(90deg)',
+  },
+  '& .MuiAccordionSummary-content': {
+    marginLeft: theme.spacing(2),
+  },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderTop: '1px solid rgba(0, 0, 0, .125)',
+}));
 
 
-import {
-  Link as RouterLink,
-  Route,
-  Routes,
-  MemoryRouter,
-  useLocation,
-} from 'react-router-dom';
 
-/************ COLLAPSE */
- 
-
-const breadcrumbNameMap = {
-  '/inbox': 'İzin İstekleri',
-  '/inbox/important': 'Important',
-  '/trash': 'Trash',
-  '/spam': 'Spam',
-  '/drafts': 'Drafts',
-};
-
-function ListItemLink(props) {
-  const { to, open, ...other } = props;
-  const primary = breadcrumbNameMap[to];
-
-  let icon = null;
-  if (open != null) {
-    icon = open ? <ExpandLess /> : <ExpandMore />;
-  }
-
-  return (
-    <li>
-      <ListItem button component={RouterLink} to={to} {...other}>
-        <ListItemText primary={primary} />
-        {icon}
-      </ListItem>
-    </li>
-  );
-}
-
-ListItemLink.propTypes = {
-  open: PropTypes.bool,
-  to: PropTypes.string.isRequired,
-};
-
-function LinkRouter(props) {
-  return <Link {...props} component={RouterLink} />;
-}
-
- 
- //******************* */
-
+/************************ */
 
 
 const drawerWidth = 240;
@@ -156,11 +141,13 @@ export default function MiniDrawer() {
   let history = useNavigate();
   const currentUser  = localStorage.getItem("currentUser");
 
-  const [openCollapse, setOpenCollapse] = React.useState(true); //collapse
+   /************ACCORDION */
+   const [expanded, setExpanded] = React.useState('panel1');
 
-  const handleClick = () => {
-    setOpenCollapse((prevOpen) => !prevOpen);
-  };
+   const handleChange = (panel) => (event, newExpanded) => {
+     setExpanded(newExpanded ? panel : false);
+   };
+ /************************ */
 
 
   const handleDrawerOpen = () => {
@@ -300,22 +287,13 @@ export default function MiniDrawer() {
           <MessageIcon />
         </ListItemIcon>
         <ListItemText primary="Mesaj gönder" sx={{ visibility: open ?  "visible" : "hidden"}} />
-      </ListItemButton>
-
-            <List>
-              <ListItemLink to="/inbox" sx={{ visibility: open ?  "visible" : "hidden"}} open={openCollapse} onClick={handleClick} />
-              <Collapse component="li" in={openCollapse} timeout="auto" unmountOnExit>
-                <List disablePadding>
-                  <ListItemLink sx={{ pl: 4 }} to="/inbox/important" />
-                </List>
-              </Collapse>
-            </List>
-
+      </ListItemButton>    
       <ListItemButton sx={{
                   maxHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                }}>
+                }}
+                href={"/list-permissions"}>
         <ListItemIcon sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
@@ -323,7 +301,7 @@ export default function MiniDrawer() {
                   }}>
           <HistoryIcon />
         </ListItemIcon>
-        <ListItemText primary="İzinler" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        <ListItemText primary="İzinlerim" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
         <Divider />
       <ListItemButton onClick = {onClick}
@@ -342,6 +320,37 @@ export default function MiniDrawer() {
         
         <ListItemText primary="Çıkış" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
+
+
+
+    <div>
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      <ListItemButton //onClick = {onClick}
+                  sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'start' : 'left',
+                }}>
+      <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',                  
+                  }}>
+        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+        <ListItemText primary="İzinlerim" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        </AccordionSummary>
+        </ListItemIcon>
+        </ListItemButton>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsin
+          </Typography>
+        </AccordionDetails>
+        
+      </Accordion>
+    </div>
+
+
+
       
 
       </Drawer>

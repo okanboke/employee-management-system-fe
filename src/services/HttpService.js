@@ -39,6 +39,20 @@ export const GetWithAuth = (url) => {
   return request
 }
 
+export const GetIdWithAuth = (url, body) => {
+
+  var request = fetch(url,  {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : localStorage.getItem("tokenKey"),
+      },
+      body : JSON.stringify(body),
+    })
+
+  return request
+}
+
 export const PutWithAuth = (url, body) => {
 
   var request = fetch(url,  {

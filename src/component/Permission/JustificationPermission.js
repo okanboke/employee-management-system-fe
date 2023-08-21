@@ -151,6 +151,7 @@ function JustificationPermission() {
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <MobileDatePicker
+                      disablePast={true}
                       label="İzin Başlangıç Tarihi"
                       inputFormat="MM/dd/yyyy"
                       value={startDate}
@@ -161,6 +162,7 @@ function JustificationPermission() {
 
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <MobileDatePicker
+                      disablePast={true}
                       label="İzin Bitiş Tarihi"
                       inputFormat="MM/dd/yyyy"
                       value={endDate}
