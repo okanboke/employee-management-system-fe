@@ -22,10 +22,11 @@ import HistoryIcon from '@mui/icons-material/History';
 import { useNavigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
 import { Link } from '@mui/material';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
 
 /******* ACCOURDİON  ***/
 
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
@@ -42,19 +43,43 @@ const Accordion = styled((props) => (
   },
 }));
 
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={<HistoryIcon />}
+const AccordionSummary2 = styled((props) => (
+  <MuiAccordionSummary id='panel1d-header2'
+    expandIcon={<BeachAccessIcon />}
     {...props}
-  />
+  />  
 ))(({ theme }) => ({
 
+  //justifyContent: "flex-start",
+  position:"relative",
+  color:"#000000",
+  right:11.5,
   flexDirection: 'row-reverse',
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(90deg)',
   },
   '& .MuiAccordionSummary-content': {
-    marginLeft: theme.spacing(2),
+    marginLeft: theme.spacing(3),
+  },
+}));
+
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary id='panel1d-header'
+    expandIcon={<HistoryIcon />}
+    {...props}
+  />
+))(({ theme }) => ({
+
+  //justifyContent: "flex-start",
+  position:"relative",
+  color:"#000000",
+  right:11.5,
+  flexDirection: 'row-reverse',
+  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+    transform: 'rotate(90deg)',
+  },
+  '& .MuiAccordionSummary-content': {
+    marginLeft: theme.spacing(3),
   },
 }));
 
@@ -142,7 +167,7 @@ export default function MiniDrawer() {
   const currentUser  = localStorage.getItem("currentUser");
 
    /************ACCORDION */
-   const [expanded, setExpanded] = React.useState('panel1');
+   const [expanded, setExpanded] = React.useState('panel1','panel2');
 
    const handleChange = (panel) => (event, newExpanded) => {
      setExpanded(newExpanded ? panel : false);
@@ -262,22 +287,6 @@ export default function MiniDrawer() {
                   maxHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                }}
-                href={"/permissions"}>
-        <ListItemIcon sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}>
-          <BeachAccessIcon />
-        </ListItemIcon>
-        <ListItemText primary="İzin İstekleri" sx={{ visibility: open ?  "visible" : "hidden"}} />
-      </ListItemButton>
-
-      <ListItemButton sx={{
-                  maxHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
                 }}>
         <ListItemIcon sx={{
                     minWidth: 0,
@@ -288,10 +297,46 @@ export default function MiniDrawer() {
         </ListItemIcon>
         <ListItemText primary="Mesaj gönder" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>    
+
+      <div>
+      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+      <ListItemButton //onClick = {onClick}
+                  sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'start' : 'left',
+                }}>
+      <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',                  
+                  }}>
+        <AccordionSummary2 aria-controls="panel1d-content" id="panel1d-header2">
+        <ListItemText primary="İzin İsteği" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        </AccordionSummary2>
+        </ListItemIcon>
+        </ListItemButton>
+        <AccordionDetails>
+
+        <ListItemButton sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 1,
+                }}
+                href={"/permissions"}>
+        <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+          <LocalHospitalIcon />
+        </ListItemIcon>
+        <ListItemText primary="Mazeret" sx={{ visibility: open ?  "visible" : "hidden"}} />
+      </ListItemButton>
+
       <ListItemButton sx={{
                   maxHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  px: 1,
                 }}
                 href={"/list-permissions"}>
         <ListItemIcon sx={{
@@ -299,10 +344,70 @@ export default function MiniDrawer() {
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
                   }}>
-          <HistoryIcon />
+          <EnergySavingsLeafIcon />
         </ListItemIcon>
-        <ListItemText primary="İzinlerim" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        <ListItemText primary="Yıllık" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
+
+        </AccordionDetails>
+      </Accordion>
+    </div>
+
+      <div>
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      <ListItemButton //onClick = {onClick}
+                  sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'start' : 'left',
+                }}>
+      <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',                  
+                  }}>
+        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+        <ListItemText primary="İzinler" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        </AccordionSummary>
+        </ListItemIcon>
+        </ListItemButton>
+        <AccordionDetails>
+
+        <ListItemButton sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 1,
+                }}
+                href={"/list-permissions"}>
+        <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+          <LocalHospitalIcon />
+        </ListItemIcon>
+        <ListItemText primary="Mazeret İzinleri" sx={{ visibility: open ?  "visible" : "hidden"}} />
+      </ListItemButton>
+
+      <ListItemButton sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 1,
+                }}
+                href={"/list-permissions"}>
+        <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+          <EnergySavingsLeafIcon />
+        </ListItemIcon>
+        <ListItemText primary="Yıllık İzinler" sx={{ visibility: open ?  "visible" : "hidden"}} />
+      </ListItemButton>
+
+        </AccordionDetails>
+      </Accordion>
+    </div>
+
         <Divider />
       <ListItemButton onClick = {onClick}
                   sx={{
@@ -320,39 +425,6 @@ export default function MiniDrawer() {
         
         <ListItemText primary="Çıkış" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
-
-
-
-    <div>
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-      <ListItemButton //onClick = {onClick}
-                  sx={{
-                  maxHeight: 48,
-                  justifyContent: open ? 'start' : 'left',
-                }}>
-      <ListItemIcon sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',                  
-                  }}>
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-        <ListItemText primary="İzinlerim" sx={{ visibility: open ?  "visible" : "hidden"}} />
-        </AccordionSummary>
-        </ListItemIcon>
-        </ListItemButton>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsin
-          </Typography>
-        </AccordionDetails>
-        
-      </Accordion>
-    </div>
-
-
-
-      
-
       </Drawer>
       </div>}
     </Box>

@@ -7,10 +7,10 @@ import Auth from './component/Auth/Auth';
 import CreateUser from './component/Admin/CreateUser';
 import HomeUser from './component/Home/HomeUser';
 import Profile from './component/User/Profile/Profile';
-import PermissionTabs from './component/Permission/PermissionTabs';
 import PermissionRequest from './component/Admin/PermissionRequest';
 import {useState} from "react";
-import ListPermissionTabs from './component/User/Permissions/ListPermissionTabs';
+import ListJustPermissions from './component/User/Permissions/ListJustPermissions';
+import JustificationPermission from './component/Permission/JustificationPermission';
 
 function App() {  
   const currentUser  = localStorage.getItem("currentUser");
@@ -59,10 +59,10 @@ currentUser === user?( //problem var
         <Route exact path="/" element={<Auth handleUserChange={handleUserChange} />}></Route>
         <Route exact path="/permission/request" element={<PermissionRequest />} />
 
-        <Route exact path={'/list-permissions'} element={<ListPermissionTabs />} />
+        <Route exact path={'/list-permissions'} element={<ListJustPermissions />} />
         <Route exact path="/home-user" element={<HomeUser />} />
         <Route exact path={"/profile/"+currentUser} element={<Profile />} />
-        <Route exact path={"/permissions"} element={<PermissionTabs />}/>
+        <Route exact path={"/permissions"} element={<JustificationPermission />}/>
         </Routes>
       </BrowserRouter>
       <header className="App-header">

@@ -117,8 +117,9 @@ function JustificationPermission() {
       getPermissionType();//izin türleri sayfa açıldığında select içerisine Get isteği yapılıyor.
     }, [])    
     return (
+      <Box sx={{typography: 'body1'}}>
         <Box color={"#fdfdfd"}>
-            <Box display={"flex"} justifyContent={"center"}>
+            <Box display={"flex"} justifyContent={"center"} sx={{ marginLeft: "10vh", marginRight: "10vh", marginTop: '20vh'}}>
             <Grid sx={{width:"80vh"}}>
             <Stack spacing={2}>
                 <FormControl fullWidth>
@@ -180,6 +181,7 @@ function JustificationPermission() {
                 </Stack>
             </Grid>
             </Box>
+        </Box>
         </Box>
     );
 }

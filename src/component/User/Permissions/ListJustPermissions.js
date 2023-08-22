@@ -3,7 +3,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import { Container } from "@mui/material";
 import { Button, Typography } from "@mui/joy";
-import { GetIdWithAuth } from "../../../services/HttpService";
+import { PostingWithoutAuth } from "../../../services/HttpService";
+import axios from "axios";
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
 
 function ListJustPermissions() {
     const [error, setError] = useState(null);
@@ -19,45 +22,173 @@ function ListJustPermissions() {
         return new Promise((resolve) => setTimeout(resolve, time)
         )
     }
-
-
+    
     //User arayüzünde izinleri listeleme localden id gönderiyoruz
-    const getJustificationPermissions = () => {
-        GetIdWithAuth("/api/permissions/user/list-permissions", {
-            id:localStorage.getItem("currentUser")
+    const getJustificationPermissionsUser = () => {
+        axios.post("/api/permissions/user/list-permissions", {
+            id: localStorage.getItem("currentUser")
+        },
+            {
+                headers
+            })
+            .then(response => {
+                JSON.parse(setListJustPermissions(response.data));
+            })
+            .catch(error => {
+                setIsLoaded(true);
+                setError(error);
+            });
+    };
+    const headers = {
+        'Content-Type': 'application/json', // JSON içeriği belirtiliyor
+        'Authorization': localStorage.getItem("tokenKey"), // Gerekirse Authorization header'ı
+    };
 
-        })
-            .then(res => res.json())
-            .then(
-                (listPermissions) => {
-                    setIsLoaded(true);
-                    setListJustPermissions(listPermissions)
-                },
-                (error) => {
-                    console.log(error);
-                    setIsLoaded(true);
-                    setError(error);
-                }
-            )
+
+    /*
+        //User arayüzünde izinleri listeleme localden id gönderiyoruz
+        const getJustificationPermissionsUser = () => {
+            PostingWithoutAuth("/api/permissions/user/list-permissions", {
+                id: localStorage.getItem("currentUser")
+    
+            })
+                .then(res => res.json())
+                .then(
+                    (listPermissions) => {
+                        setIsLoaded(true);
+                        setListJustPermissions(listPermissions)
+                    },
+                    (error) => {
+                        console.log(error);
+                        setIsLoaded(true);
+                        setError(error);
+                    }
+                )
+        }
+    */
+
+    /** Kolon üzerine Mouse ile gelindiğinde görünmeyen yazıyı gösterir. */
+
+    function isOverflown(element) {
+        return (
+            element.scrollHeight > element.clientHeight ||
+            element.scrollWidth > element.clientWidth
+        );
     }
 
+    const GridCellExpand = React.memo(function GridCellExpand(props) {
+        const { width, value } = props;
+        const wrapper = React.useRef(null);
+        const cellDiv = React.useRef(null);
+        const cellValue = React.useRef(null);
+        const [anchorEl, setAnchorEl] = React.useState(null);
+        const [showFullCell, setShowFullCell] = React.useState(false);
+        const [showPopper, setShowPopper] = React.useState(false);
+
+        const handleMouseEnter = () => {
+            const isCurrentlyOverflown = isOverflown(cellValue.current);
+            setShowPopper(isCurrentlyOverflown);
+            setAnchorEl(cellDiv.current);
+            setShowFullCell(true);
+        };
+
+        const handleMouseLeave = () => {
+            setShowFullCell(false);
+        };
+
+        React.useEffect(() => {
+            if (!showFullCell) {
+                return undefined;
+            }
+
+            function handleKeyDown(nativeEvent) {
+                // IE11, Edge (prior to using Bink?) use 'Esc'
+                if (nativeEvent.key === 'Escape' || nativeEvent.key === 'Esc') {
+                    setShowFullCell(false);
+                }
+            }
+
+            document.addEventListener('keydown', handleKeyDown);
+
+            return () => {
+                document.removeEventListener('keydown', handleKeyDown);
+            };
+        }, [setShowFullCell, showFullCell]);
+
+        return (
+            <Box
+                ref={wrapper}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                sx={{
+                    alignItems: 'center',
+                    lineHeight: '24px',
+                    width: '100%',
+                    height: '100%',
+                    position: 'relative',
+                    display: 'flex',
+                }}
+            >
+                <Box
+                    ref={cellDiv}
+                    sx={{
+                        height: '100%',
+                        width,
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                    }}
+                />
+                <Box
+                    ref={cellValue}
+                    sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                >
+                    {value}
+                </Box>
+                {showPopper && (
+                    <Popper
+                        open={showFullCell && anchorEl !== null}
+                        anchorEl={anchorEl}
+                        style={{ width, marginLeft: -17 }}
+                    >
+                        <Paper
+                            elevation={1}
+                            style={{ minHeight: wrapper.current.offsetHeight - 3 }}
+                        >
+                            <Typography variant="body2" style={{ padding: 8 }}>
+                                {value}
+                            </Typography>
+                        </Paper>
+                    </Popper>
+                )}
+            </Box>
+        );
+    });
+
+
+    function renderCellExpand(params) {
+        return (
+            <GridCellExpand value={params.value || ''} width={params.colDef.computedWidth} />
+        );
+    }
+    //************************************************* */
     const columns = [
 
         { field: "id", headerName: 'İzin ID', width: 60 },
         { field: 'firstName', headerName: 'Adı', width: 80 },
         { field: 'lastName', headerName: 'Soyadı', width: 80 },
-        { field: 'permissionType', headerName: 'İzin Türü', width: 80 },
-        { field: 'permissionDescription', headerName: 'Açıklama', width: 120 },
+        { field: 'permissionType', headerName: 'İzin Türü', width: 120, renderCell: renderCellExpand, },
+        { field: 'permissionDescription', headerName: 'Açıklama', width: 120, renderCell: renderCellExpand, },
         { field: 'userName', headerName: 'E-Mail', width: 120, },
 
         {
-            field: 'startDate', headerName: 'Başlangıç Tarihi', width: 80,
+            field: 'startDate', headerName: 'Başlangıç Tarihi', width: 100,
             //sortable: false,
             // valueGetter: (params) =>
             //    `${params.row.firstName || ''} ${params.row.lastName || ''}`,
         },
         {
-            field: 'endDate', headerName: 'Bitiş Tarihi', width: 80,
+            field: 'endDate', headerName: 'Bitiş Tarihi', width: 100,
             //sortable: false,
 
             // valueGetter: (params) =>
@@ -86,40 +217,43 @@ function ListJustPermissions() {
     ];
 
     useEffect(() => {
-        getJustificationPermissions();
+        getJustificationPermissionsUser();
     }, [])
 
     return (
-        <Box
-            component="main"
-            sx={{
-                flexGrow: 1,
-                py: 8,
-                background: "#fdfdfd"
-            }}
-        >
-            <Container maxWidth="xl">
-                <Box sx={{
-                    marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '87%', background: "#ffffff"
-                }}>
-                    <DataGrid
-                        rows={listJustPermissions}
-                        columns={columns}
-                        pageSize={5}
-                        initialState={{
-                            sorting: {
-                                sortModel: [{ field: 'id', sort: 'desc' }], //sıralama
-                            },
-                        }} rowsPerPageOptions={[5]}
-                        sx={{ borderRadius: "16px" }}
-                        //checkboxSelection={listJustPermissions} {...listJustPermissions}
-                        //onRowClick={handleRowClick} //seçilen row'u handleRowClick metodunda permissionId'yi set edeceğiz
-                        disableSelectionOnClick
-                        experimentalFeatures={{ newEditingApi: true }}
+        <Box display={"block"} sx={{ typography: 'body1', marginLeft: "10vh", marginRight: "10vh", marginTop: '10vh' }}>
+            <Box
+                component="main"
+                sx={{
+                    flexGrow: 1,
+                    py: 8,
+                    background: "#fdfdfd"
+                }}
+            >
+                <Container maxWidth="xl">
+                    <Box sx={{
+                        marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '82%', background: "#ffffff"
+                    }}>
+                        <DataGrid
+                            rows={listJustPermissions}
+                            columns={columns}
+                            pageSize={5}
+                            initialState={{
+                                sorting: {
+                                    sortModel: [{ field: 'id', sort: 'desc' }], //sıralama
+                                },
+                            }} rowsPerPageOptions={[5]}
+                            sx={{ borderRadius: "16px" }}
+                            //checkboxSelection={listJustPermissions} {...listJustPermissions}
+                            //onRowClick={handleRowClick} //seçilen row'u handleRowClick metodunda permissionId'yi set edeceğiz
+                            //disableSelectionOnClick
+                            showCellRightBorder
+                            experimentalFeatures={{ newEditingApi: true }}
 
-                    />
-                </Box>
-            </Container>
+                        />
+                    </Box>
+                </Container>
+            </Box>
         </Box>
 
     );
