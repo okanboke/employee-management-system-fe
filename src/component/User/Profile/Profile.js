@@ -16,12 +16,12 @@ function Profile() {
     const { id } = useParams();
     const [user, setUser] = useState([]);
     const [address, setAddress] = useState([]);
-    const currentUser = localStorage.getItem("currentUser");
+    const path = localStorage.getItem("currentUser");
     
 
     const getUser = () => {
 
-        GetWithAuth("/api/employee/profile/" + currentUser) //services'de metdouna gidecek
+        GetWithAuth("/api/employee/profile/" + path) //services'de metdouna gidecek
 
             .then(res => res.json())
             .then(
@@ -38,7 +38,7 @@ function Profile() {
 
     const getAddress = () => {
 
-        GetWithAuth("/api/employee/profile/address/"+ currentUser) //services'de metdouna gidecek
+        GetWithAuth("/api/employee/profile/address/"+ path) //services'de metdouna gidecek
 
             .then(res => res.json())
             .then(

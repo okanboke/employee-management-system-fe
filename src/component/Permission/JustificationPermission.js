@@ -29,7 +29,7 @@ function JustificationPermission() {
 
 
       //İzin Ekleme
-      const permissionSave = () => { //ilanı yayınlamak için back-end tarafına yolluyoruz.
+      const permissionSave = () => { //isteği eklemek için back-end tarafına yolluyoruz.
         PostingWithoutAuth("/api/permissions/create", {
             userId: userId,
             permissionTypeId: justPermissionType.toString(),
