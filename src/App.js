@@ -7,7 +7,7 @@ import Auth from './component/Auth/Auth';
 import CreateUser from './component/Admin/CreateUser';
 import HomeUser from './component/Home/HomeUser';
 import Profile from './component/User/Profile/Profile';
-import PermissionRequest from './component/Admin/PermissionRequest';
+import JustificationPerRequest from './component/Admin/JustificationPerRequest';
 import {useState} from "react";
 import ListJustPermissions from './component/User/Permissions/ListJustPermissions';
 import JustificationPermission from './component/Permission/JustificationPermission';
@@ -17,7 +17,7 @@ function App() {
   const roles = [localStorage.getItem("roleName")];
   const [foundUser, setFoundUser] = useState([]);
 
-  const user = 2;
+  const user = 1;
   console.log(localStorage.getItem("currentUser"));
 
 
@@ -51,13 +51,11 @@ currentUser === user?( //problem var
 
      }
 
-          
-
         <Routes> 
         <Route exact path="/home" element={<Home />} />
         <Route exact path='/create-user' element={<CreateUser/>} />
         <Route exact path="/" element={<Auth handleUserChange={handleUserChange} />}></Route>
-        <Route exact path="/permission/request" element={<PermissionRequest />} />
+        <Route exact path="/permission/request" element={<JustificationPerRequest />} />
 
         <Route exact path={'/list-permissions'} element={<ListJustPermissions />} />
         <Route exact path="/home-user" element={<HomeUser />} />

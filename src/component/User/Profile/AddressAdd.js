@@ -22,7 +22,7 @@ export default function BasicModalDialog() {
     //const userId = localStorage.getItem("currentUser")
     const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
     const [open, setOpen] = React.useState(false);
-    let disabled = localStorage.getItem("addressId") === null? false:true; //adres bilgisi varsa yenisi eklenemeyecek
+    let disabled = localStorage.getItem("addressId") === "undefined"? true:false; //adres bilgisi varsa yenisi eklenemeyecek
 
 
   //adress bilgileri
@@ -66,23 +66,23 @@ export default function BasicModalDialog() {
           .then((res) => res.json())
           .catch((err) => console.log(err))
   }
-
+  
   //adres güncelleme ekranı
   const getAddress = () => {
-
     GetWithAuth("/api/employee/profile/address/currentuser/"+ addressId) //services'de metdouna gidecek
 
         .then(res => res.json())
         .then(
-            (result) => {
-                console.log(result);
-                setAddress(result);
+            (data) => {
+                console.log(data);
+                setAddress(data);
             },
             (error) => {
                 console.log(error)
             }
         )
 }
+ 
 
     //adres ekleme
     async function handleSubmit() { //buttona basıldığında aldığımız değerleri objeye dönüştürüp göndereceğiz
@@ -139,8 +139,9 @@ export default function BasicModalDialog() {
     }
 
     const handleNewAddress = () => { //Adres ekleme alanı açıldığında
-      getAddress();
-      setOpen(true) 
+      addressId === "undefined"? console.log("address yok") : getAddress();
+
+        setOpen(true) 
 }
 useEffect(() => {
   //düzenlenecek
@@ -156,7 +157,7 @@ useEffect(() => {
         sx={{background: 'linear-gradient(45deg, #6120ff 60%, #8f6aff 90%)',
           color: 'white'}}
         startDecorator={<Add />}
-        onClick={() => handleNewAddress()}
+        onClick={() => handleNewAddress() }
       >
         Yeni Adres
       </Button>
@@ -182,22 +183,22 @@ useEffect(() => {
               <FormControl>
                 <FormLabel>Ülke</FormLabel>
                 <Input autoFocus required value={country}
-                onChange = { (i) => handleCountry(i.target.value)}/>
+                onChange = { (i) => handleCountry(i.target.value.replace(/^\w/, function($0){return $0.toUpperCase();}))}/>
               </FormControl>
               <FormControl>
                 <FormLabel>İl</FormLabel>
                 <Input  required value={city} //{address.country}
-                onChange = { (i) => handleCity(i.target.value)}/> 
+                onChange = { (i) => handleCity(i.target.value.replace(/^\w/, function($0){return $0.toUpperCase();}))}/> 
               </FormControl>
               <FormControl>
                 <FormLabel>İlçe</FormLabel>
                 <Input required value={district}
-                onChange = { (i) => handleDistrict(i.target.value)}/>
+                onChange = { (i) => handleDistrict(i.target.value.replace(/^\w/, function($0){return $0.toUpperCase();}))}/>
               </FormControl>
               <FormControl>
                 <FormLabel>Cadde/Sokak</FormLabel>
                 <Input required value={street}
-                onChange = { (i) => handleStreet(i.target.value)}/>
+                onChange = { (i) => handleStreet(i.target.value.replace(/^\w/, function($0){return $0.toUpperCase();}))}/>
               </FormControl>
               <FormControl>
                 <FormLabel>No</FormLabel>

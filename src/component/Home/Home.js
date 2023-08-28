@@ -19,9 +19,9 @@ function Home() {
     GetWithAuth("/api/admin/list-user")                              //AdminController classından backend den oluşturduğumuz isteği fetch ediyoruz...
       .then(res => res.json())                        //gelen isteği parse ediyoruz
       .then(
-        (result) => {                               //result gelme durumunda ne yapmamız gerektiği
+        (data) => {                               //result gelme durumunda ne yapmamız gerektiği
           setIsLoaded(true);              //data geldiğinde isLoaded i true yapmamız gerekiyor
-          setUserList(result)   //gelen datayı productList'e result ediyoruz searcbar ile arıyoruzz
+          setUserList(data)   //gelen datayı productList'e result ediyoruz searcbar ile arıyoruzz
         },
 
         (error) => {                                //error oluşması durumunda ne yapmamız gerekdiği

@@ -283,7 +283,10 @@ function JustificationPerRequest() {
                     </ModalDialog>
                 </Modal>
             </Box>
+            
             <Container maxWidth="xl">
+            <Box sx={{typography: 'body1', marginLeft: "10vh", marginRight: "10vh", marginTop: '10vh'}}>
+
                 <Box sx={{
                     marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '87%', background: "#ffffff"
                 }}>
@@ -303,6 +306,7 @@ function JustificationPerRequest() {
                         experimentalFeatures={{ newEditingApi: true }}
 
                     />
+                </Box>
                 </Box>
             </Container>
         </Box>

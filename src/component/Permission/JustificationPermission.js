@@ -45,7 +45,7 @@ function JustificationPermission() {
         //İzin türü görüntüleme
         const getPermissionType = () => {
 
-          GetWithAuth("/api/permissions/type//user/list-types")                              //AdminController classından backend den oluşturduğumuz isteği fetch ediyoruz...
+          GetWithAuth("/api/permissions/type/user/list-types")                              //AdminController classından backend den oluşturduğumuz isteği fetch ediyoruz...
               .then(res => res.json())                        //gelen isteği parse ediyoruz
               .then(
                   (data) => {                               //result gelme durumunda ne yapmamız gerektiği

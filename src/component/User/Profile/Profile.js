@@ -25,9 +25,9 @@ function Profile() {
 
             .then(res => res.json())
             .then(
-                (result) => {
-                    console.log(result);
-                    setUser(result);
+                (data) => {
+                    console.log(data);
+                    setUser(data);
 
                 },
                 (error) => {
@@ -42,10 +42,10 @@ function Profile() {
 
             .then(res => res.json())
             .then(
-                (result) => {
-                    console.log(result);
-                    setAddress(result);
-                    localStorage.setItem("addressId",result.addressId);
+                (data) => {
+                    console.log(data);
+                    setAddress(data);
+                    localStorage.setItem("addressId",data.addressId);
 
                 },
                 (error) => {

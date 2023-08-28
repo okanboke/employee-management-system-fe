@@ -240,7 +240,6 @@ export default function MiniDrawer() {
         </Toolbar>
       </AppBar>
       
-
       <Drawer variant="permanent" open={open}>
       
         <DrawerHeader>

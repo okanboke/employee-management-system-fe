@@ -25,7 +25,9 @@ function CreateUser(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("")
+  const [restDay, setRestDay] = useState()
   const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
   const [userDate, setDate] = useState(dayjs(""));
 
@@ -64,9 +66,11 @@ function CreateUser(props) {
             PostingWithoutAuth("/api/auth/admin/create-user", {
               firstName: firstName,
               lastName: lastName,
+              phoneNumber: phoneNumber,
               userName: username,
               password: password,
               userDate: userDate,
+              restDay: restDay,
           }
         )//services'de metdouna gidecek
                   .then((res) => res.json())
@@ -84,6 +88,8 @@ function CreateUser(props) {
             setLastName("");
             setUsername("");
             setPassword("");
+            setPhoneNumber("");
+            setRestDay("");
             setDate("");
           }
 
@@ -97,6 +103,11 @@ function CreateUser(props) {
             setLastName(value);
             setIsSent(false);
         }
+
+        const handlePhoneNumber = (value) => {
+          setPhoneNumber(value);
+          setIsSent(false);
+        }
     
         const handleEmail = (value) => {
             setUsername(value);
@@ -105,6 +116,11 @@ function CreateUser(props) {
     
         const handlePassword = (value) => {
           setPassword(value);
+          setIsSent(false);
+        }
+
+        const handleRestDay = (value) => {
+          setRestDay(value);
           setIsSent(false);
         }
 
@@ -161,7 +177,7 @@ function CreateUser(props) {
                   label="Adı"
                   autoFocus
                   value={firstName}
-                  onChange = { (i) => handleFirstName(i.target.value)}
+                  onChange = { (i) => handleFirstName(i.target.value.replace(/^\w/, function($0){return $0.toUpperCase();}))}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -173,7 +189,19 @@ function CreateUser(props) {
                   name="lastName"
                   autoComplete="family-name"
                   value={lastName}
-                  onChange = { (i) => handleLastName(i.target.value)}
+                  onChange = { (i) => handleLastName(i.target.value.replace(/^\w/, function($0){return $0.toUpperCase();}))}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="phoneNumber"
+                  label="Telefon"
+                  name="phoneNumber"
+                  autoComplete="family-name"
+                  value={phoneNumber}
+                  onChange = { (i) => handlePhoneNumber(i.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -201,7 +229,7 @@ function CreateUser(props) {
                   onChange = { (i) => handlePassword(i.target.value)}
                 />
               </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
 
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <MobileDatePicker
@@ -213,6 +241,18 @@ function CreateUser(props) {
                     />
                   </LocalizationProvider>
                 </Grid>
+                <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name="restDay"
+                  label="İzin Günü"
+                  id="restDay"
+                  autoComplete="new-password"
+                  value={restDay}
+                  onChange = { (i) => handleRestDay(i.target.value)}
+                />
+              </Grid>
 
               </Grid>
               <Button

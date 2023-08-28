@@ -22,6 +22,76 @@ import LoginIcon from '@mui/icons-material/Login';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { useNavigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
+import HistoryIcon from '@mui/icons-material/History';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+
+
+/******* ACCOURDİON  ***/
+
+import MuiAccordion from '@mui/material/Accordion';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props}/>
+))(({ theme }) => ({
+  border: `0px solid ${theme.palette.divider}`,
+  '&:not(:last-child)': {
+    borderBottom: 0,
+  },
+  '&:before': {
+    display: 'none',
+  },
+}));
+
+const AccordionSummary2 = styled((props) => (
+  <MuiAccordionSummary id='panel1d-header2'
+    expandIcon={<BeachAccessIcon />}
+    {...props}
+  />  
+))(({ theme }) => ({
+
+  //justifyContent: "flex-start",
+  position:"relative",
+  color:"#000000",
+  right:11.5,
+  flexDirection: 'row-reverse',
+  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+    transform: 'rotate(90deg)',
+  },
+  '& .MuiAccordionSummary-content': {
+    marginLeft: theme.spacing(3),
+  },
+}));
+
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary id='panel1d-header'
+    expandIcon={<HistoryIcon />}
+    {...props}
+  />
+))(({ theme }) => ({
+
+  //justifyContent: "flex-start",
+  position:"relative",
+  color:"#000000",
+  right:11.5,
+  flexDirection: 'row-reverse',
+  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+    transform: 'rotate(90deg)',
+  },
+  '& .MuiAccordionSummary-content': {
+    marginLeft: theme.spacing(3),
+  },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderTop: '1px solid rgba(0, 0, 0, .125)',
+}));
+
+
+
 
 const drawerWidth = 240;
 
@@ -96,6 +166,14 @@ export default function MiniDrawer() {
   let history = useNavigate();
   const currentUser  = localStorage.getItem("currentUser");
 
+     /************ACCORDION */
+     const [expanded, setExpanded] = React.useState('panel1','panel2');
+
+     const handleChange = (panel) => (event, newExpanded) => {
+       setExpanded(newExpanded ? panel : false);
+     };
+   /************************ */
+    
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -162,7 +240,6 @@ export default function MiniDrawer() {
         </Toolbar>
       </AppBar>
       
-
       <Drawer variant="permanent" open={open}>
       
         <DrawerHeader>
@@ -235,6 +312,77 @@ export default function MiniDrawer() {
         </ListItemIcon>
         <ListItemText primary="İzin istekleri" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
+
+      <div>
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      <ListItemButton //onClick = {onClick}
+                  sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'start' : 'left',
+                }}>
+      <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',                  
+                  }}>
+        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+        <ListItemText primary="İzinler" sx={{ visibility: open ?  "visible" : "hidden"}} />
+        </AccordionSummary>
+        </ListItemIcon>
+        </ListItemButton>
+        <AccordionDetails>
+
+        <ListItemButton sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 1,
+                }}
+                href={"/permission/request"}>
+        <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+          <LocalHospitalIcon />
+        </ListItemIcon>
+        <ListItemText primary="Mazeret İzinleri" sx={{ visibility: open ?  "visible" : "hidden"}} />
+      </ListItemButton>
+
+      <ListItemButton sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 1,
+                }}
+                href={"/list-permissions"}>
+        <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+          <EnergySavingsLeafIcon />
+        </ListItemIcon>
+        <ListItemText primary="Yıllık İzinler" sx={{ visibility: open ?  "visible" : "hidden"}} />
+      </ListItemButton>
+      
+        <ListItemButton sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 1,
+                }}
+                href={"/permission/request"}>
+        <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+          <FormatListNumberedIcon />
+        </ListItemIcon>
+        <ListItemText primary="İzin Türleri" sx={{ visibility: open ?  "visible" : "hidden"}} />
+      </ListItemButton>
+
+        </AccordionDetails>
+      </Accordion>
+    </div>
 
       <ListItemButton sx={{
                   maxHeight: 48,

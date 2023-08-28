@@ -201,20 +201,20 @@ function ListJustPermissions() {
             renderCell: (cellValues) => {
                 return (
                     cellValues.row.approvalStatus === false ?
-                        <Button
+                    <div><Typography fontStyle={"oblique"} sx={{ color: "#dc3545" }}>Beklemede</Typography></div>:
+                        <div><Typography fontStyle={"oblique"} sx={{ color: "#4BB543" }}>Onaylandı</Typography></div>
+
+                );
+            }
+        }
+    ];                  /*<Button
                             fullWidth
                             sx={{ background: "#4BB543", color: 'white' }}
                             variant="contained"
                             color="neutral"
                         >
                             Onayla
-                        </Button> :
-                        <div><Typography fontStyle={"oblique"} sx={{ color: "#4BB543" }}>Onaylandı</Typography></div>
-
-                );
-            }
-        }
-    ];
+                        </Button> */ //onaylama buttonu izin silmek için kullanılacak...
 
     useEffect(() => {
         getJustificationPermissionsUser();
