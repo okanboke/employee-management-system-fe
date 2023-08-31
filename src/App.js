@@ -43,14 +43,13 @@ currentUser === user?( //problem var
     <div className="App">
       <BrowserRouter>
      {currentUser !== null?  //user geldi mi? kontrolünden sonra yönlendirme
-        JSON.parse(currentUser) === user?( //problem var
+        currentUser === user?( //problem var
         <Navbar></Navbar>
         ) : (
           <UserNavbar></UserNavbar>
         ) : <div></div>
 
      }
-
         <Routes> 
         <Route exact path="/home" element={<Home />} />
         <Route exact path='/create-user' element={<CreateUser/>} />
