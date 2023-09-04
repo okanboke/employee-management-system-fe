@@ -11,6 +11,8 @@ import JustificationPerRequest from './component/Admin/JustificationPerRequest';
 import {useState} from "react";
 import ListJustPermissions from './component/User/Permissions/ListJustPermissions';
 import JustificationPermission from './component/Permission/JustificationPermission';
+import ListAnnualPermissions from './component/Admin/ListAnnualPermissions';
+import AnnualPermissions from './component/User/Permissions/AnnualPermissions';
 
 function App() {  
   const currentUser  = localStorage.getItem("currentUser");
@@ -43,7 +45,7 @@ currentUser === user?( //problem var
     <div className="App">
       <BrowserRouter>
      {currentUser !== null?  //user geldi mi? kontrolünden sonra yönlendirme
-        currentUser === user?( //problem var
+        JSON.parse(currentUser) === user?( //problem var
         <Navbar></Navbar>
         ) : (
           <UserNavbar></UserNavbar>
@@ -55,11 +57,13 @@ currentUser === user?( //problem var
         <Route exact path='/create-user' element={<CreateUser/>} />
         <Route exact path="/" element={<Auth handleUserChange={handleUserChange} />}></Route>
         <Route exact path="/permission/request" element={<JustificationPerRequest />} />
+        <Route exact path="/annual/permissions/admin/list-permissions" element={<ListAnnualPermissions />} />
 
         <Route exact path={'/list-permissions'} element={<ListJustPermissions />} />
         <Route exact path="/home-user" element={<HomeUser />} />
         <Route exact path={"/profile/"+currentUser} element={<Profile />} />
         <Route exact path={"/permissions"} element={<JustificationPermission />}/>
+        <Route exact path={"/annual/permissions/user/create"} element={<AnnualPermissions />} />
         </Routes>
       </BrowserRouter>
       <header className="App-header">

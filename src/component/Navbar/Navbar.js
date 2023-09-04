@@ -353,7 +353,7 @@ export default function MiniDrawer() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 1,
                 }}
-                href={"/list-permissions"}>
+                href={"/annual/permissions/admin/list-permissions"}>
         <ListItemIcon sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
