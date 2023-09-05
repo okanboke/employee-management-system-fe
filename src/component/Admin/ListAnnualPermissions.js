@@ -157,7 +157,7 @@ function ListAnnualPermissions() {
             <Box sx={{typography: 'body1', marginLeft: "10vh", marginRight: "10vh", marginTop: '10vh'}}>
 
                 <Box sx={{
-                    marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '87%', background: "#ffffff"
+                    marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '75%', background: "#ffffff"
                 }}>
                     <DataGrid
                         rows={listJustPermissions}
@@ -168,7 +168,11 @@ function ListAnnualPermissions() {
                               sortModel: [{ field: 'id', sort: 'desc' }], //sıralama
                             },
                           }}                        rowsPerPageOptions={[5]}
-                        sx={{ borderRadius: "16px" }}
+                        sx={{ borderRadius: "16px",'& .MuiDataGrid-columnHeader, & .MuiDataGrid-field': {
+                            backgroundColor: "#7091F5",
+                            color: "white",
+                            fontWeight: 700,
+                         }, }}
                         //checkboxSelection={listJustPermissions} {...listJustPermissions}
                         //onRowClick={handleRowClick} //seçilen row'u handleRowClick metodunda permissionId'yi set edeceğiz
                         disableSelectionOnClick

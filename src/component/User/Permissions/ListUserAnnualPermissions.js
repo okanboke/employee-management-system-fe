@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import { Container } from "@mui/material";
-import { Button, Typography } from "@mui/joy";
-import { PostingWithoutAuth } from "../../../services/HttpService";
+import { Typography } from "@mui/joy";
 import axios from "axios";
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 
-function ListJustPermissions() {
+function ListUserAnnualPermissions() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
@@ -25,7 +24,7 @@ function ListJustPermissions() {
     
     //User arayüzünde izinleri listeleme localden id gönderiyoruz
     const getJustificationPermissionsUser = () => {
-        axios.post("/api/permissions/user/list-permissions", {
+        axios.post("/api/annual/permissions/user/list-permissions", {
             id: localStorage.getItem("currentUser")
         },
             {
@@ -177,8 +176,7 @@ function ListJustPermissions() {
         { field: "id", headerName: 'İzin ID', width: 60 },
         { field: 'firstName', headerName: 'Adı', width: 80 },
         { field: 'lastName', headerName: 'Soyadı', width: 80 },
-        { field: 'permissionType', headerName: 'İzin Türü', width: 120, renderCell: renderCellExpand, },
-        { field: 'permissionDescription', headerName: 'Açıklama', width: 120, renderCell: renderCellExpand, },
+        { field: 'type', headerName: 'İzin Türü', width: 120, renderCell: renderCellExpand, },
         { field: 'userName', headerName: 'E-Mail', width: 120, },
 
         {
@@ -247,7 +245,7 @@ function ListJustPermissions() {
                                 backgroundColor: "#7091F5",
                                 color: "white",
                                 fontWeight: 700,
-                             }, }}
+                             },}}
                             //checkboxSelection={listJustPermissions} {...listJustPermissions}
                             //onRowClick={handleRowClick} //seçilen row'u handleRowClick metodunda permissionId'yi set edeceğiz
                             //disableSelectionOnClick
@@ -262,4 +260,4 @@ function ListJustPermissions() {
 
     );
 }
-export default ListJustPermissions;
+export default ListUserAnnualPermissions;

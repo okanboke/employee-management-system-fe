@@ -16,7 +16,9 @@ function AnnualPermissions() {
     const userId = localStorage.getItem("currentUser") //giriş yapmış userID
     const [isLoaded, setIsLoaded] = useState(false);
     const [error, setError] = useState(null);
-    const [permissionDescription, setPermissionDescription] = useState("");
+    const [contactPersonName, setContactPersonName] = useState("");
+    const [contactPerson, setContactPerson] = useState("");
+    const [travelLocation, setTravelLocation] = useState("");
     const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
     const [startDate, setStartDate] = useState(dayjs(""));
     const [endDate, setEndDate] = useState(dayjs(""));
@@ -25,7 +27,9 @@ function AnnualPermissions() {
       const permissionSave = () => { //isteği eklemek için back-end tarafına yolluyoruz.
         PostingWithoutAuth("/api/annual/permissions/user/create", {
             userId: userId,
-            permissionDescription: permissionDescription,
+            contactPersonName: contactPersonName,
+            contactPerson: contactPerson,
+            travelLocation: travelLocation,
             startDate: startDate,
             endDate: endDate
         }
@@ -51,7 +55,9 @@ function AnnualPermissions() {
 
         permissionSave(""); //save fonksiyonu çağırıyoruz.  
         setIsSent(true);
-        setPermissionDescription("");
+        setContactPersonName("");
+        setContactPerson("");
+        setTravelLocation("");
         setStartDate("");
         setEndDate("");
     }
@@ -60,21 +66,31 @@ function AnnualPermissions() {
       
       const defaultTheme = createTheme();
 
-    const handleStartDate = (startValue) => { //start date
-        setStartDate(startValue);
-        setIsSent(false);
-    };
+  const handleStartDate = (startValue) => { //start date
+    setStartDate(startValue);
+    setIsSent(false);
+  };
 
-    const handleEndDate = (endValue) => { //end date
-        setEndDate(endValue);
-        setIsSent(false);
-    };
+  const handleEndDate = (endValue) => { //end date
+    setEndDate(endValue);
+    setIsSent(false);
+  };
 
-    const handlePermissionDescription = (value) => { //girilen değeri alıp state e gönderecek
-        setPermissionDescription(value);
-        setIsSent(false);
-    }
-    
+  const handleContactPersonName = (value) => { //girilen değeri alıp state e gönderecek
+    setContactPersonName(value);
+    setIsSent(false);
+  }
+
+  const handleContactPerson = (value) => { //girilen değeri alıp state e gönderecek
+    setContactPerson(value);
+    setIsSent(false);
+  }
+
+  const handleTravelLocation = (value) => { //girilen değeri alıp state e gönderecek
+    setTravelLocation(value);
+    setIsSent(false);
+  }
+
     useEffect(() => {
       //getPermissionType();//izin türleri sayfa açıldığında select içerisine Get isteği yapılıyor.
     }, [])    
@@ -84,10 +100,22 @@ function AnnualPermissions() {
             <Box display={"flex"} justifyContent={"center"} sx={{ marginLeft: "10vh", marginRight: "10vh", marginTop: '20vh'}}>
             <Grid sx={{width:"80vh"}}>
             <Stack spacing={2}>
-                <TextField onChange={(i) => handlePermissionDescription(i.target.value)}
+                <TextField onChange={(i) => handleContactPersonName(i.target.value.replace(/^\w/, function($0){return $0.toUpperCase();}))}
                     required
                     id="outlined-required"
-                    label="Mazeret Tanımı"
+                    label="İletişim Kişisi"
+                    fullWidth
+                />
+                <TextField onChange={(i) => handleContactPerson(i.target.value)}
+                    required
+                    id="outlined-required"
+                    label="Telefon No"
+                    fullWidth
+                />
+                <TextField onChange={(i) => handleTravelLocation(i.target.value.replace(/^\w/, function($0){return $0.toUpperCase();}))}
+                    required
+                    id="outlined-required"
+                    label="Bulunacağı İl"
                     fullWidth
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>

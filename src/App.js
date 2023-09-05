@@ -13,21 +13,20 @@ import ListJustPermissions from './component/User/Permissions/ListJustPermission
 import JustificationPermission from './component/Permission/JustificationPermission';
 import ListAnnualPermissions from './component/Admin/ListAnnualPermissions';
 import AnnualPermissions from './component/User/Permissions/AnnualPermissions';
+import ListUserAnnualPermissions from './component/User/Permissions/ListUserAnnualPermissions';
 
 function App() {  
   const currentUser  = localStorage.getItem("currentUser");
-  const roles = [localStorage.getItem("roleName")];
+  const roles = localStorage.getItem("roleName");
   const [foundUser, setFoundUser] = useState([]);
+  const parseUser = parseInt(currentUser);
 
   const user = 1;
-  console.log(localStorage.getItem("currentUser"));
-
 
   const handleUserChange = (newUser) => {
     setFoundUser(newUser);
+
   }
-
-
 //          {localStorage.getItem("currentUser") != null ? <Navigate to="/home"/>: <Auth/>} 
 
 //{current != "user" ?:
@@ -40,12 +39,11 @@ currentUser === user?( //problem var
           ) : <div></div>
 
 /******  */
-      
   return (
     <div className="App">
       <BrowserRouter>
      {currentUser !== null?  //user geldi mi? kontrolünden sonra yönlendirme
-        JSON.parse(currentUser) === user?( //problem var
+        parseUser === user?( //problem var
         <Navbar></Navbar>
         ) : (
           <UserNavbar></UserNavbar>
@@ -60,6 +58,7 @@ currentUser === user?( //problem var
         <Route exact path="/annual/permissions/admin/list-permissions" element={<ListAnnualPermissions />} />
 
         <Route exact path={'/list-permissions'} element={<ListJustPermissions />} />
+        <Route exact path={'/list-annual-permissions'} element={<ListUserAnnualPermissions />} />
         <Route exact path="/home-user" element={<HomeUser />} />
         <Route exact path={"/profile/"+currentUser} element={<Profile />} />
         <Route exact path={"/permissions"} element={<JustificationPermission />}/>

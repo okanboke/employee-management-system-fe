@@ -46,7 +46,7 @@ function Auth({handleUserChange}) {
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.userName);
                 localStorage.setItem("roleName", result.roles);
-                handleUserChange(result);
+                handleUserChange(JSON.stringify(result.roles));
             })
             .catch((err) => console.log(err))
     }
@@ -81,10 +81,11 @@ function Auth({handleUserChange}) {
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.userName);
                 localStorage.setItem("roleName", result.roles); //problem var
-                handleUserChange(result.roles.roleName);
+                handleUserChange(JSON.stringify(result.roles));
             })
             .catch((err) => console.log(err))
     }
+
 
     //user Login
     const handleUserLogin = () => {

@@ -102,7 +102,7 @@ const columns = [
           </Grid>
           </div>
 
-        <Box sx={{marginRight: "auto",marginLeft: "auto",marginTop: '2.5%', height: 400, width: '65%', background: "#ffffff"
+        <Box sx={{marginRight: "auto",marginLeft: "auto",marginTop: '2.5%', height: 400, width: '58%', background: "#ffffff"
  }}>
  
       <DataGrid
@@ -110,7 +110,11 @@ const columns = [
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        sx={{borderRadius: "16px"}}
+        sx={{borderRadius: "16px", '& .MuiDataGrid-columnHeader, & .MuiDataGrid-field': {
+          backgroundColor: "#7091F5",
+          color: "white",
+          fontWeight: 700,
+       },}}
         
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}

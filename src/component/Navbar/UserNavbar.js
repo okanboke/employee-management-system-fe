@@ -24,7 +24,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import { Link } from '@mui/material';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
-
+import HomeIcon from '@mui/icons-material/Home';
 /******* ACCOURDİON  ***/
 
 import MuiAccordion from '@mui/material/Accordion';
@@ -232,7 +232,7 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Link href="#" color="inherit" underline="none">
+          <Link href="/home-user" color="inherit" underline="none">
           <Typography variant="h6" noWrap component="div" to>Finastech İzin Sistemi
           </Typography>
           </Link>
@@ -248,6 +248,23 @@ export default function MiniDrawer() {
           </IconButton>
         </DrawerHeader>
         <Divider />
+
+        <ListItemButton sx={{
+                  maxHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+                href={"/home-user"}
+                >
+        <ListItemIcon sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText primary="Anasayfa" sx={{ visibility: open ?  "visible" : "hidden"}} />
+      </ListItemButton>  
 
         <ListItemButton sx={{
                   maxHeight: 48,
@@ -392,7 +409,7 @@ export default function MiniDrawer() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 1,
                 }}
-                href={"/list-permissions"}>
+                href={"/list-annual-permissions"}>
         <ListItemIcon sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
