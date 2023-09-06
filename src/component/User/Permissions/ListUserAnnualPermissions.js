@@ -6,14 +6,16 @@ import { Typography } from "@mui/joy";
 import axios from "axios";
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
+import { Button } from "@mui/joy";
 
 function ListUserAnnualPermissions() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
-    const [listJustPermissions, setListJustPermissions] = useState([]);
+    const [listAnnualPermissions, setListAnnualPermissions] = useState([]);
+    const [annualPermissionPrint, setAnnualPermissionPrint] = useState([])
     let status = true;
-    let checkStatus = listJustPermissions.filter(x => x.approvalStatus);
+    let checkStatus = listAnnualPermissions.filter(x => x.approvalStatus);
 
     console.log(checkStatus);
 
@@ -21,6 +23,93 @@ function ListUserAnnualPermissions() {
         return new Promise((resolve) => setTimeout(resolve, time)
         )
     }
+     /***Print Document *********************/
+     const documentData = {
+        title: "Senelik İzin Talebi",
+        firstName: annualPermissionPrint.firstName,
+        lastName: annualPermissionPrint.lastName,
+        mail: annualPermissionPrint.userName,
+        type: annualPermissionPrint.type,
+        contactPersonName: annualPermissionPrint.contactPersonName,
+        contactPerson: annualPermissionPrint.contactPerson,
+        travelLocation: annualPermissionPrint.travelLocation,
+        startDate: annualPermissionPrint.startDate,
+        endDate: annualPermissionPrint.endDate,
+        Tarih: new Date().toLocaleDateString(),
+      };
+  
+  
+      // Belgeyi oluşturan fonksiyon
+  function createDocument(data) {
+    const documentContent = `
+      <html>
+        <head>
+          <title></title>
+        </head>
+        <body style="display:block; ">
+          <h1>${data.title}</h1>
+          <p>İsim: ${data.firstName}</p>
+          <p>Soyisim: ${data.lastName}</p>
+          <p>Mail: ${data.mail}</p>
+          <p>İzin Türü: ${data.type}</p>
+          <p>İletişim Kişisi: ${data.contactPersonName}</p>
+          <p>Numara: ${data.contactPerson}</p>
+          <p>Seyahat Konumu: ${data.travelLocation}</p>
+          <p>İzin Başlangıç Tarihi: ${data.startDate}</p>
+          <p>İzin Bitiş Tarihi: ${data.endDate}</p>
+          <p>Sistem Onayı: Onaylandı</p>
+          <br>
+          <p>
+            Yukarıda belirtiğim   -   tarihler arasında  gün  kullanmak istiyorum.
+          </p>
+          <p>
+            Bilgilerinize arz ederim.
+        </p>
+        <p><input maxlength="10" type="text" name="isim" value="${data.Tarih}" readonly="readonly" style="width: 70%; text-align: center;"></p>
+        <p style="width: 70%; text-align: center;">  </p>
+        <br>
+        <br>
+        <br>
+        <p><u><strong>İŞVEREN ONAYI &nbsp;</strong></u></p>
+        <p><span>  İşveren  &nbsp; &nbsp; &nbsp; &nbsp;: </span></p>
+        <p><span>  Onaylayan &nbsp;:</span></p>
+        <p><span class="yazi">
+                Tarih &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:</span></p>
+                <p>İmza &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:</p>
+                <br>
+        </body>
+      </html>
+    `;
+    return documentContent;
+  }
+  
+  // Yazdırma işlemini başlatan bir fonksiyon tanımlayın
+  function printDocument() {
+    const documentContent = createDocument(documentData);
+        const printWindow = window.open('', '', 'width=800,height=800');
+        printWindow.document.open();
+        printWindow.document.write(documentContent);
+        printWindow.document.close();
+        printWindow.print();
+        printWindow.close();   
+  }
+  
+  const handlePrintEvent = (params, // GridRowParams
+  event, // MuiEvent<React.MouseEvent<HTMLElement>>
+  details,
+  ) => {
+     //setRowSelectedRowId(event.row.id)
+     if (event.row.approvalStatus === false) { //izin durumu true ise işlem yapmayacak.
+         alert("Talebiniz onaylandıktan sonra belge oluşturabilirsiniz.")
+     } else {
+        setAnnualPermissionPrint(event.row);
+        printDocument();
+     }
+  }
+  
+      /************************************* */
+
+
     
     //User arayüzünde izinleri listeleme localden id gönderiyoruz
     const getJustificationPermissionsUser = () => {
@@ -31,7 +120,7 @@ function ListUserAnnualPermissions() {
                 headers
             })
             .then(response => {
-                JSON.parse(setListJustPermissions(response.data));
+                JSON.parse(setListAnnualPermissions(response.data));
             })
             .catch(error => {
                 setIsLoaded(true);
@@ -55,7 +144,7 @@ function ListUserAnnualPermissions() {
                 .then(
                     (listPermissions) => {
                         setIsLoaded(true);
-                        setListJustPermissions(listPermissions)
+                        setListAnnualPermissions(listPermissions)
                     },
                     (error) => {
                         console.log(error);
@@ -204,15 +293,34 @@ function ListUserAnnualPermissions() {
 
                 );
             }
+        },
+        {
+          field: "Print", width: 100,
+          renderCell: (cellValues) => {
+              return(
+                  <Button
+                  fullWidth
+                  sx={{background: "#7091F5",color: 'white'}}
+                  variant="contained"
+                  color="neutral"
+                  onClick={(event) => {
+                    handlePrintEvent(event, cellValues);
+                  }} //eğer onaylandı ise farklı button göster
+                >
+                  Yazdır
+                </Button>
+              
+                );
+          }
         }
-    ];                  /*<Button
+    ];                 /* <Button
                             fullWidth
                             sx={{ background: "#4BB543", color: 'white' }}
                             variant="contained"
                             color="neutral"
                         >
                             Onayla
-                        </Button> */ //onaylama buttonu izin silmek için kullanılacak...
+                        </Button>  *///onaylama buttonu izin silmek için kullanılacak...
 
     useEffect(() => {
         getJustificationPermissionsUser();
@@ -233,7 +341,7 @@ function ListUserAnnualPermissions() {
                         marginRight: "auto", marginLeft: "auto", marginTop: '2.5%', height: 400, width: '75%', background: "#ffffff"
                     }}>
                         <DataGrid
-                            rows={listJustPermissions}
+                            rows={listAnnualPermissions}
                             columns={columns}
                             pageSize={5}
                             initialState={{
@@ -246,7 +354,7 @@ function ListUserAnnualPermissions() {
                                 color: "white",
                                 fontWeight: 700,
                              },}}
-                            //checkboxSelection={listJustPermissions} {...listJustPermissions}
+                            //checkboxSelection={listAnnualPermissions} {...listAnnualPermissions}
                             //onRowClick={handleRowClick} //seçilen row'u handleRowClick metodunda permissionId'yi set edeceğiz
                             //disableSelectionOnClick
                             showCellRightBorder

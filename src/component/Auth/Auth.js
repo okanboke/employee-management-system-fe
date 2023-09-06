@@ -15,6 +15,10 @@ function Auth({handleUserChange}) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [user, setUser] = useState([]);
+    const userId = localStorage.getItem("currentUser");
+    const parseId = parseInt(userId);
+
+
     function sleep(time){ //bekletme
         return new Promise((resolve)=>setTimeout(resolve,time)
       )
@@ -93,7 +97,7 @@ function Auth({handleUserChange}) {
         setUsername("")
         setPassword("")
         sleep(1000).then(()=>{ //yarım saniye bekletme
-            localStorage.getItem("currentUser") != null ?//user geldi mi? kontrolünden sonra yönlendirme
+            parseId != null ?//user geldi mi? kontrolünden sonra yönlendirme
             history("/home-user") 
             : <div>404</div>
          })

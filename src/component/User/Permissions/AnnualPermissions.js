@@ -1,5 +1,5 @@
 import  React, { useEffect, useState } from 'react';
-import { Box, TextField } from "@mui/material"
+import { Box, Card, TextField } from "@mui/material"
 import { Grid } from "@mui/material";
 import Stack from '@mui/material/Stack';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
@@ -23,6 +23,7 @@ function AnnualPermissions() {
     const [startDate, setStartDate] = useState(dayjs(""));
     const [endDate, setEndDate] = useState(dayjs(""));
 
+   
       //İzin Ekleme
       const permissionSave = () => { //isteği eklemek için back-end tarafına yolluyoruz.
         PostingWithoutAuth("/api/annual/permissions/user/create", {
@@ -98,8 +99,13 @@ function AnnualPermissions() {
       <Box sx={{typography: 'body1'}}>
         <Box color={"#fdfdfd"}>
             <Box display={"flex"} justifyContent={"center"} sx={{ marginLeft: "10vh", marginRight: "10vh", marginTop: '20vh'}}>
-            <Grid sx={{width:"80vh"}}>
-            <Stack spacing={2}>
+            <Card
+            sx={{height:"70vh", width:"90vh", display:"flex", alignItems:"center", justifyContent:"center"}}
+            spacing={3}>
+            <Grid sx={{width:"70vh"}}>
+            <Typography variant='h5' >Senelik İzin Talebi</Typography>
+
+            <Stack spacing={2} marginTop={"1vh"}>
                 <TextField onChange={(i) => handleContactPersonName(i.target.value.replace(/^\w/, function($0){return $0.toUpperCase();}))}
                     required
                     id="outlined-required"
@@ -148,9 +154,11 @@ function AnnualPermissions() {
                 color: 'white'}}>İzin İste</Button>
                 </Stack>
             </Grid>
+            </Card>
             </Box>
         </Box>
-        </Box>
+      </Box>
+        
     );
 }
 export default AnnualPermissions;

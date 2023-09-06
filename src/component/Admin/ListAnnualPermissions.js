@@ -47,9 +47,10 @@ function ListAnnualPermissions() {
         }
      }
 
+
        //izin onayı
     const updatePermissionStatus = (id) => { //ilanı yayınlamak için back-end tarafına yolluyoruz.
-        PutWithAuth("/api/permissions/admin/update-status", {
+        PutWithAuth("/api/annual/permissions/admin/update-status", {
             permissionId: id,
             approvalStatus: status,
 
@@ -70,7 +71,7 @@ function ListAnnualPermissions() {
  
     //admin arayüzünde gelen izin isteklerini listeleme
     const getJustificationPermissions = () => {
-        GetWithAuth("/api/annual/permissions/admin/list-permissions")
+        GetWithAuth("/api/annual/permissions/admin/list-annual")
             .then(res => res.json())
             .then(
                 (listPermissions) => {
@@ -93,7 +94,7 @@ function ListAnnualPermissions() {
 
     const columns = [
         
-        { field: "permissionId", headerName: 'İzin ID', width: 60},
+        { field: "id", headerName: 'İzin ID', width: 60},
         { field: 'firstName', headerName: 'Adı', width: 80 },
         { field: 'lastName', headerName: 'Soyadı', width: 80 },
         { field: 'permissionType', headerName: 'İzin Türü', width: 80 },
