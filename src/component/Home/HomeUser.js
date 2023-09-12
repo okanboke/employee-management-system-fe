@@ -78,7 +78,8 @@ function HomeUser() {
         <Card alignItems="flex-start"
           direction="row"
           justifyContent="space-between"
-          spacing={3} >
+          spacing={3}
+          sx={{borderRadius: "16px"}} >
 
           <Timeline position="alternate">
             <TimelineItem>

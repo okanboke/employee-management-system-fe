@@ -297,22 +297,6 @@ export default function MiniDrawer() {
         <ListItemText primary="Takvim" sx={{visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>
 
-      <ListItemButton sx={{
-                  maxHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                href='/permission/request'>
-        <ListItemIcon sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}>
-          <BeachAccessIcon />
-        </ListItemIcon>
-        <ListItemText primary="İzin istekleri" sx={{ visibility: open ?  "visible" : "hidden"}} />
-      </ListItemButton>
-
       <div>
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
       <ListItemButton //onClick = {onClick}
@@ -369,7 +353,7 @@ export default function MiniDrawer() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 1,
                 }}
-                href={"/permission/request"}>
+                href={"/justification/type"}>
         <ListItemIcon sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',

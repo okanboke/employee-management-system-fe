@@ -1,7 +1,4 @@
 import PropTypes from 'prop-types';
-import ArrowDownIcon from '@heroicons/react/24/solid/ArrowDownIcon';
-import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
-import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import Home from '../Home/Home';
@@ -9,7 +6,7 @@ import EngineeringIcon from '@mui/icons-material/Engineering';
 
 
 export const OverviewUserInfo = (props) => {
-    const { difference, positive = false, sx, value, firstName, lastName } = props;
+    const { difference, positive = false, sx,  firstName, lastName } = props;
     return (
       <Card sx={sx}>
         <CardContent>

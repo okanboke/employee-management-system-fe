@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import "../Auth/Auth.css"
+import Error from "../Error/Error";
 
 function Auth({handleUserChange}) {
     //onChange metoduyla bu bilgileri inputlardan alacağız
@@ -63,10 +64,10 @@ function Auth({handleUserChange}) {
         sendAdminRequest() //register backend e istek atacak
         setUsername("")
         setPassword("")
-        sleep(1000).then(()=>{ //yarım saniye bekletme
-            localStorage.getItem("currentUser") != null ?//user geldi mi? kontrolünden sonra yönlendirme
+        sleep(1500).then(()=>{ //yarım saniye bekletme
+            parseId != null?//user geldi mi? kontrolünden sonra yönlendirme
             history("/home")
-            : <div> 404 </div>
+            : history("/error")
          })     
         //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
     }
@@ -96,10 +97,10 @@ function Auth({handleUserChange}) {
         sendUserRequest() //register backend e istek atacak
         setUsername("")
         setPassword("")
-        sleep(1000).then(()=>{ //yarım saniye bekletme
-            parseId != null ?//user geldi mi? kontrolünden sonra yönlendirme
+        sleep(1500).then(()=>{ //yarım saniye bekletme
+            parseId != null?//user geldi mi? kontrolünden sonra yönlendirme
             history("/home-user") 
-            : <div>404</div>
+            : history("/error")
          })
         
         //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız

@@ -22,7 +22,9 @@ export default function BasicModalDialog() {
     //const userId = localStorage.getItem("currentUser")
     const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
     const [open, setOpen] = React.useState(false);
-    let disabled = localStorage.getItem("addressId") === "undefined"? true:false; //adres bilgisi varsa yenisi eklenemeyecek
+    let disabled = localStorage.getItem("addressId");
+    let parseAddressId = parseInt(disabled) !== null? true:false; //adres bilgisi varsa yenisi eklenemeyecek,;
+
 
 
   //adress bilgileri
@@ -217,7 +219,7 @@ useEffect(() => {
               style={{marginRight: "1%",
               background: 'linear-gradient(45deg, #6120ff 60%, #8f6aff 90%)',
               color: 'white'}}>Adresi Düzenle</Button>
-              {disabled? <Button type="submit"
+              {parseAddressId? <Button type="submit"
               disabled
               fullWidth
               color='neutral'

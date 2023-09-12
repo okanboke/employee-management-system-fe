@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import { Container } from "@mui/material";
+import { Container, Dialog } from "@mui/material";
 import { Typography } from "@mui/joy";
 import axios from "axios";
 import Paper from '@mui/material/Paper';
@@ -11,7 +11,6 @@ import { Button } from "@mui/joy";
 function ListUserAnnualPermissions() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isSent, setIsSent] = useState(false); //textboxları temizlemek için
     const [listAnnualPermissions, setListAnnualPermissions] = useState([]);
     const [annualPermissionPrint, setAnnualPermissionPrint] = useState([])
     let status = true;
@@ -47,7 +46,10 @@ function ListUserAnnualPermissions() {
           <title></title>
         </head>
         <body style="display:block; ">
+        <div style="text-align: center;">
           <h1>${data.title}</h1>
+          </div>
+          <hr></hr>
           <p>İsim: ${data.firstName}</p>
           <p>Soyisim: ${data.lastName}</p>
           <p>Mail: ${data.mail}</p>

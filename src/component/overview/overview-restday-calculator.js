@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types';
-import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import Home from '../Home/Home';
+import CalculateIcon from '@mui/icons-material/Calculate';
 
 
 
-export const OverviewTotalCustomers = (props) => {
-    const { difference, positive = false, sx, value, usersCount } = props;
+export const OverviewRestDayCalculator = (props) => {
+    const { difference, positive = false, sx, restDayCalc } = props;
     return (
       <Card sx={sx}>
         <CardContent>
           <Stack
-            alignItems="flex-start"
+            alignItems="center"
             direction="row"
             justifyContent="space-between"
             spacing={3}
@@ -22,21 +21,21 @@ export const OverviewTotalCustomers = (props) => {
                 color="text.secondary"
                 variant="overline"
               >
-                Toplam Çalışan
+                Hesaplanan İzin Günü
               </Typography>
               <Typography variant="h4">
-                {value}
+                {restDayCalc}
               </Typography>
             </Stack>
             <Avatar
               sx={{
-                backgroundColor: 'success.main',
+                backgroundColor: "#6120ff",
                 height: 56,
                 width: 56
               }}
             >
               <SvgIcon>
-                <UsersIcon />
+                <CalculateIcon />
               </SvgIcon>
             </Avatar>
           </Stack>
@@ -58,7 +57,7 @@ export const OverviewTotalCustomers = (props) => {
                 color="text.secondary"
                 variant="caption"
               >
-                Yönetici dahil
+                Bayram ve Resmi Tatiller Hariç!
               </Typography>
             </Stack>
           )}
@@ -67,7 +66,7 @@ export const OverviewTotalCustomers = (props) => {
     );
   };
   
-  OverviewTotalCustomers.propTypes = {
+  OverviewRestDayCalculator.propTypes = {
     difference: PropTypes.number,
     positive: PropTypes.bool,
     value: PropTypes.string.isRequired,

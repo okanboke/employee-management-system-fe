@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import ListBulletIcon from '@heroicons/react/24/solid/ListBulletIcon';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import {
   Avatar,

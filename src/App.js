@@ -14,6 +14,8 @@ import JustificationPermission from './component/Permission/JustificationPermiss
 import ListAnnualPermissions from './component/Admin/ListAnnualPermissions';
 import AnnualPermissions from './component/User/Permissions/AnnualPermissions';
 import ListUserAnnualPermissions from './component/User/Permissions/ListUserAnnualPermissions';
+import CreatePermissionType from './component/Admin/CreatePermissionType';
+import Error from './component/Error/Error';
 
 function App() {  
   const currentUser  = localStorage.getItem("currentUser");
@@ -56,6 +58,9 @@ currentUser === user?( //problem var
         <Route exact path="/" element={<Auth handleUserChange={handleUserChange} />}></Route>
         <Route exact path="/permission/request" element={<JustificationPerRequest />} />
         <Route exact path="/annual/permissions/admin/list-permissions" element={<ListAnnualPermissions />} />
+        <Route exact path={'/justification/type'} element={<CreatePermissionType />} />
+
+        <Route exact path={'/error'} element={<Error></Error>} />
 
         <Route exact path={'/list-permissions'} element={<ListJustPermissions />} />
         <Route exact path={'/list-annual-permissions'} element={<ListUserAnnualPermissions />} />
