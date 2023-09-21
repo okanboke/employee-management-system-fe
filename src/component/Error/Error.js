@@ -36,7 +36,7 @@ return (
           >
             <img
               alt="Under development"
-              src="/Users/x/Desktop/employee-management-system-fe/finastech-fe/public/Pic/error-404.png"
+              src="/Users/x/Desktop/employee-management-system-fe/employee-management-system-fe/public/Pic/error-404.png"
               style={{
                 display: 'inline-block',
                 maxWidth: '100%',

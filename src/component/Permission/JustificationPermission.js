@@ -78,7 +78,6 @@ function JustificationPermission() {
         }
       )
   }
-  console.log(createPermission.status);
 
 
   function Copyright(props) {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormControl, FormHelperText,  Typography } from "@mui/material";
+import { Alert, FormControl, FormHelperText, Snackbar, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { PostWithoutAuth } from "../../services/HttpService";
@@ -11,20 +11,23 @@ import TextField from '@mui/material/TextField';
 import "../Auth/Auth.css"
 import Error from "../Error/Error";
 
-function Auth({handleUserChange}) {
+function Auth({ handleUserChange }) {
     //onChange metoduyla bu bilgileri inputlardan alacağız
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isPop, setIsPop] = useState(false);
+    const [error, setError] = useState([]);
     const [user, setUser] = useState([]);
     const userId = localStorage.getItem("currentUser");
     const parseId = parseInt(userId);
-
-
-    function sleep(time){ //bekletme
-        return new Promise((resolve)=>setTimeout(resolve,time)
-      )
-  }
     const history = useNavigate();
+
+    function sleep(time) { //bekletme
+        return new Promise((resolve) => setTimeout(resolve, time)
+        )
+    }
+
 
     const handleUsername = (value) => {
         setUsername(value)
@@ -51,24 +54,28 @@ function Auth({handleUserChange}) {
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.userName);
                 localStorage.setItem("roleName", result.roles);
-                handleUserChange(JSON.stringify(result.roles));
+                handleUserChange(result);
             })
             .catch((err) => console.log(err))
     }
 
-
-    /******************************************* */
+    /********************************************/
 
     //admin Login
     const handleAdminLogin = () => {
         sendAdminRequest() //register backend e istek atacak
         setUsername("")
         setPassword("")
-        sleep(1500).then(()=>{ //yarım saniye bekletme
-            parseId != null?//user geldi mi? kontrolünden sonra yönlendirme
-            history("/home")
-            : history("/error")
-         })     
+        sleep(2000).then(() => { //yarım saniye bekletme
+            if (user.message === null) {
+                setIsPop(false);
+            } else {
+                setIsPop(true);
+            }
+            parseId > 0 ?//user geldi mi? kontrolünden sonra yönlendirme
+                history("/home")
+                : history("/")
+        })
         //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
     }
     //user Request
@@ -86,26 +93,38 @@ function Auth({handleUserChange}) {
                 localStorage.setItem("currentUser", result.userId);
                 localStorage.setItem("userName", result.userName);
                 localStorage.setItem("roleName", result.roles); //problem var
-                handleUserChange(JSON.stringify(result.roles));
+                handleUserChange(result);
+                setError(result.message)
+                if (result.accessToken != null) {
+                    setIsLoaded(true); 
+                    history("/home-user")                   
+                }
             })
-            .catch((err) => console.log(err))
+            .catch(error2 => {
+                setError(error2); //devam edilecek
+            });
+        //.catch((err) => console.log(err))
     }
-
-
     //user Login
     const handleUserLogin = () => {
-        sendUserRequest() //register backend e istek atacak
+        sendUserRequest()   //register backend e istek atacak
         setUsername("")
         setPassword("")
-        sleep(1500).then(()=>{ //yarım saniye bekletme
-            parseId != null?//user geldi mi? kontrolünden sonra yönlendirme
-            history("/home-user") 
-            : history("/error")
-         })
-        
-        //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
-    }
+        sleep(1500).then(() => {  //yarım saniye bekletme
+            if (error === null) {
+                setIsPop(false);
+            } else {
+                setIsPop(true);
+            }
+        })
+    } //register olduktan sonra tekrar aynı sayfaya gitmesini sağlayacağız
 
+    const handleClose = (event, reason) => { //uyarı mesajı
+        if (reason === 'clickaway') {
+            return;
+        }
+        setIsPop(false);
+    };
 
     return (
         <Box
@@ -113,6 +132,7 @@ function Auth({handleUserChange}) {
             noValidate
             autoComplete="off"
         >
+
             <div className="ortalama">
                 <Grid container component="main" className="foto" style={{ height: "100vh" }}>
                     <CssBaseline />
@@ -156,6 +176,15 @@ function Auth({handleUserChange}) {
                                     }}
                                     onClick={(() => handleAdminLogin())}>Admin</Button>
                             </div>
+                            <Snackbar open={isPop} autoHideDuration={3000} onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right"
+                                }}>
+                                <Alert onClose={handleClose} severity="error">
+                                    {error}
+                                </Alert>
+                            </Snackbar>
                         </FormControl>
                     </Grid>
                     <Grid item xs={false} sm={4} md={6} className="image" />

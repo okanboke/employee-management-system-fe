@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import { Container, Dialog } from "@mui/material";
+import { Container, Dialog, Stack } from "@mui/material";
 import { Typography } from "@mui/joy";
 import axios from "axios";
 import Paper from '@mui/material/Paper';
@@ -361,7 +361,12 @@ function ListUserAnnualPermissions() {
                             //disableSelectionOnClick
                             showCellRightBorder
                             experimentalFeatures={{ newEditingApi: true }}
-
+                            components={{
+                                NoRowsOverlay: () => (
+                                  <Stack height="100%" alignItems="center" justifyContent="center">
+                                    Kayıt Bulunamadı.
+                                  </Stack>
+                                ),}}
                         />
                     </Box>
                 </Container>

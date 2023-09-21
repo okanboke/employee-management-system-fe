@@ -160,7 +160,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+export default function MiniDrawer({ onUserClick }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   let history = useNavigate();
@@ -191,7 +191,11 @@ export default function MiniDrawer() {
     localStorage.removeItem("roleName")
     localStorage.removeItem("addressId")
     history("/")
+    onUserClick(null);
+
   }
+
+
 /*
   <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 
@@ -233,7 +237,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Link href="/home-user" color="inherit" underline="none">
-          <Typography variant="h6" noWrap component="div" to>Finastech İzin Sistemi
+          <Typography variant="h6" noWrap component="div" to>İzin Sistemi
           </Typography>
           </Link>
 
@@ -282,37 +286,6 @@ export default function MiniDrawer() {
         </ListItemIcon>
         <ListItemText primary="Profil" sx={{ visibility: open ?  "visible" : "hidden"}} />
       </ListItemButton>  
-
-        <ListItemButton sx={{
-                  maxHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}>
-        <ListItemIcon sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-          <CalendarMonthIcon />
-        </ListItemIcon>
-        <ListItemText primary="Takvim" sx={{visibility: open ?  "visible" : "hidden"}} />
-      </ListItemButton>
-
-      <ListItemButton sx={{
-                  maxHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}>
-        <ListItemIcon sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}>
-          <MessageIcon />
-        </ListItemIcon>
-        <ListItemText primary="Mesaj gönder" sx={{ visibility: open ?  "visible" : "hidden"}} />
-      </ListItemButton>    
 
       <div>
       <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>

@@ -26,7 +26,12 @@ function App() {
   const user = 1;
 
   const handleUserChange = (newUser) => {
-    setFoundUser(newUser);
+    setFoundUser(newUser.accessToken);
+    console.log(newUser);
+
+  }
+  const onUserClick = (killUser) => {
+    setFoundUser(killUser);
 
   }
 //          {localStorage.getItem("currentUser") != null ? <Navigate to="/home"/>: <Auth/>} 
@@ -44,11 +49,11 @@ currentUser === user?( //problem var
   return (
     <div className="App">
       <BrowserRouter>
-     {currentUser !== null?  //user geldi mi? kontrolünden sonra yönlendirme
+     {foundUser !== null?  //user geldi mi? kontrolünden sonra yönlendirme
         parseUser === user?( //problem var
         <Navbar></Navbar>
         ) : (
-          <UserNavbar></UserNavbar>
+          <UserNavbar onUserClick={onUserClick}></UserNavbar>
         ) : <div></div>
 
      }

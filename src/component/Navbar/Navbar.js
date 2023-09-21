@@ -32,6 +32,7 @@ import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import { Link } from '@mui/material';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props}/>
@@ -192,6 +193,41 @@ export default function MiniDrawer() {
     localStorage.removeItem("addressId")
     history("/")
   }
+  /*
+     <ListItemButton sx={{
+               maxHeight: 48,
+               justifyContent: open ? 'initial' : 'center',
+               px: 2.5,
+             }}>
+     <ListItemIcon sx={{
+                 minWidth: 0,
+                 mr: open ? 3 : 'auto',
+                 justifyContent: 'center',
+               }}
+             >
+       <CalendarMonthIcon />
+     </ListItemIcon>
+     <ListItemText primary="Takvim" sx={{visibility: open ?  "visible" : "hidden"}} />
+   </ListItemButton>
+
+
+         <ListItemButton sx={{
+               maxHeight: 48,
+               justifyContent: open ? 'initial' : 'center',
+               px: 2.5,
+             }}>
+     <ListItemIcon sx={{
+                 minWidth: 0,
+                 mr: open ? 3 : 'auto',
+                 justifyContent: 'center',
+               }}>
+       <MessageIcon />
+     </ListItemIcon>
+     <ListItemText primary="Mesaj gönder" sx={{ visibility: open ?  "visible" : "hidden"}} />
+   </ListItemButton>
+
+*/
+
 /*
   <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 
@@ -216,9 +252,6 @@ export default function MiniDrawer() {
     
     <Box sx={{ display: 'flex'}}>
              {currentUser == null ? <div></div>
-
-      
-   
 :<div>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{backgroundColor: "#6120ff" }}>
@@ -235,8 +268,10 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" to>Finastech İzin Sistemi
+          <Link href="/home" color="inherit" underline="none">
+          <Typography variant="h6" noWrap component="div" to>İzin Sistemi
           </Typography>
+          </Link>
         </Toolbar>
       </AppBar>
       
@@ -279,24 +314,7 @@ export default function MiniDrawer() {
           <PersonAddAlt1Icon />
         </ListItemIcon>
         <ListItemText primary="Personel ekle" sx={{ visibility: open ?  "visible" : "hidden"}} />
-      </ListItemButton>  
-
-        <ListItemButton sx={{
-                  maxHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}>
-        <ListItemIcon sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-          <CalendarMonthIcon />
-        </ListItemIcon>
-        <ListItemText primary="Takvim" sx={{visibility: open ?  "visible" : "hidden"}} />
-      </ListItemButton>
-
+      </ListItemButton> 
       <div>
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
       <ListItemButton //onClick = {onClick}
@@ -367,22 +385,6 @@ export default function MiniDrawer() {
         </AccordionDetails>
       </Accordion>
     </div>
-
-      <ListItemButton sx={{
-                  maxHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}>
-        <ListItemIcon sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}>
-          <MessageIcon />
-        </ListItemIcon>
-        <ListItemText primary="Mesaj gönder" sx={{ visibility: open ?  "visible" : "hidden"}} />
-      </ListItemButton>
-
       <ListItemButton sx={{
                   maxHeight: 48,
                   justifyContent: open ? 'initial' : 'center',

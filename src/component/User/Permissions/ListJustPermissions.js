@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import { Container } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import { Button, Typography } from "@mui/joy";
 import { PostingWithoutAuth } from "../../../services/HttpService";
 import axios from "axios";
@@ -253,7 +253,12 @@ function ListJustPermissions() {
                             //disableSelectionOnClick
                             showCellRightBorder
                             experimentalFeatures={{ newEditingApi: true }}
-
+                            components={{
+                                NoRowsOverlay: () => (
+                                  <Stack height="100%" alignItems="center" justifyContent="center">
+                                    Kayıt Bulunamadı.
+                                  </Stack>
+                                ),}}
                         />
                     </Box>
                 </Container>
